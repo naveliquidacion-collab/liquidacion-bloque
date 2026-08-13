@@ -1,0 +1,2345 @@
+
+<!-- saved from url=(0071)file:///C:/Users/liquidacionp2/Documents/control_liquidacion%20(2).html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --navy:#0b1f3a;
+    --navy-2:#13315c;
+    --navy-soft:#e8edf5;
+    --white:#ffffff;
+    --line:#d7deea;
+    --text:#0b1f3a;
+    --muted:#5a6b85;
+    --good:#1c7a4d;
+    --warn:#b3541e;
+  }
+  *{box-sizing:border-box;}
+  .cl-app{
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background:var(--white);
+    color:var(--text);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .cl-header{
+    background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 100%);
+    color:var(--white);
+    padding:20px 24px;
+  }
+  .cl-header h1{margin:0;font-size:20px;letter-spacing:.3px;font-weight:700;}
+  .cl-header p{margin:4px 0 0;font-size:13px;color:#cfdcf2;}
+  .cl-tabs{display:flex;background:var(--navy-soft);border-bottom:1px solid var(--line);}
+  .cl-tab{
+    flex:1;padding:13px 10px;text-align:center;font-size:13px;font-weight:600;
+    color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;
+    transition:all .15s ease;user-select:none;
+  }
+  .cl-tab.active{color:var(--navy);border-bottom-color:var(--navy);background:var(--white);}
+  .cl-body{padding:22px 24px 26px;}
+  .cl-section{display:none;}
+  .cl-section.active{display:block;}
+  .cl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px;}
+  .cl-field label{display:block;font-size:12px;font-weight:600;color:var(--navy-2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
+  .cl-field input,.cl-field select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;color:var(--text);background:var(--white);}
+  .cl-field input:focus,.cl-field select:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(19,49,92,.12);}
+  .cl-field input.cl-error,.cl-field select.cl-error{border-color:#c0392b !important;box-shadow:0 0 0 3px rgba(192,57,43,.12);}
+  .cl-readonly{background:var(--navy-soft) !important;color:var(--navy-2);font-weight:600;}
+  .cl-btn{
+    background:var(--navy);color:var(--white);border:none;padding:10px 22px;
+    border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s ease;
+  }
+  .cl-btn:hover{background:var(--navy-2);}
+  .cl-btn.secondary{background:var(--white);color:var(--navy);border:1px solid var(--navy);}
+  .cl-btn.secondary:hover{background:var(--navy-soft);}
+  .cl-btn.success{background:#1c7a4d;color:#fff;border:none;}
+  .cl-btn.success:hover{background:#155d3a;}
+  .cl-btn.warning{background:#b3541e;color:#fff;border:none;}
+  .cl-btn.warning:hover{background:#8c3f14;}
+  .cl-btn.sm{padding:4px 10px;font-size:11px;}
+  .cl-row-actions{display:flex;gap:10px;align-items:center;margin-top:4px;flex-wrap:wrap;}
+  .cl-table-wrap{margin-top:18px;border:1px solid var(--line);border-radius:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table.cl-table{width:100%;border-collapse:collapse;font-size:13px;}
+  table.cl-table thead th{background:var(--navy);color:var(--white);text-align:left;padding:9px 10px;font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;}
+  table.cl-table tbody td{padding:8px 10px;border-bottom:1px solid var(--line);color:var(--text);white-space:nowrap;}
+  table.cl-table tbody tr:nth-child(even){background:var(--navy-soft);}
+  table.cl-table tbody tr:hover{background:#dde6f3;}
+  table.cl-table th:last-child,table.cl-table td:last-child{position:sticky;right:0;background:var(--white);box-shadow:-6px 0 6px -6px rgba(0,0,0,.12);}
+  table.cl-table thead th:last-child{background:var(--navy);}
+  table.cl-table tbody tr:nth-child(even) td:last-child{background:var(--navy-soft);}
+  table.cl-table tbody tr:hover td:last-child{background:#dde6f3;}
+  .cl-empty{text-align:center;color:var(--muted);padding:24px;font-size:13px;}
+  .cl-badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;}
+  .cl-badge.fresco{background:#dff3e6;color:var(--good);}
+  .cl-badge.mascara{background:#e8edf5;color:var(--navy-2);}
+  .cl-badge.reproceso{background:#fbe9dd;color:var(--warn);}
+  .cl-section-title{font-size:14px;font-weight:700;color:var(--navy);margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--navy-soft);}
+  .cl-summary-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;}
+  .cl-card{background:var(--navy-soft);border:1px solid var(--line);border-radius:10px;padding:14px;}
+  .cl-card .cl-card-label{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;letter-spacing:.4px;}
+  .cl-card .cl-card-value{font-size:22px;font-weight:800;color:var(--navy);margin-top:4px;}
+  .cl-filterbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:flex-end;}
+  .cl-filterbar .cl-field{min-width:130px;}
+  .cl-msg{font-size:12.5px;margin-top:8px;min-height:16px;font-weight:600;}
+  .cl-msg.ok{color:var(--good);}
+  .cl-msg.err{color:var(--warn);}
+  .cl-tunel-block{margin-bottom:14px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .cl-tunel-header{background:var(--navy-2);color:var(--white);padding:8px 12px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;}
+  .cl-edit-mode{background:#fff8e6;border:2px solid #e0a800;border-radius:10px;padding:14px;margin-bottom:16px;}
+  .cl-edit-mode .cl-edit-banner{font-size:12.5px;font-weight:700;color:#7a5500;margin-bottom:10px;}
+
+  /* Modal cierre de turno */
+  .cl-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;}
+  .cl-modal-overlay.open{display:flex;}
+  .cl-modal{background:#fff;border-radius:14px;width:96%;max-width:860px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.22);}
+  .cl-modal-header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:18px 22px;border-radius:14px 14px 0 0;display:flex;justify-content:space-between;align-items:center;}
+  .cl-modal-header h2{margin:0;font-size:17px;}
+  .cl-modal-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;}
+  .cl-modal-body{padding:22px;}
+  .cl-cierre-tunel{border:1px solid var(--line);border-radius:10px;margin-bottom:16px;overflow:hidden;}
+  .cl-cierre-tunel-hdr{background:var(--navy-soft);padding:9px 14px;font-weight:700;color:var(--navy);font-size:13px;display:flex;justify-content:space-between;}
+  .cl-cierre-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);}
+  .cl-cierre-kv .k{font-size:10.5px;color:var(--muted);text-transform:uppercase;font-weight:700;}
+  .cl-cierre-kv .v{font-size:15px;font-weight:800;color:var(--navy);}
+  .cl-cierre-liqlist{padding:8px 14px 12px;font-size:12.5px;color:var(--text);}
+
+  /* Print styles */
+  #pdf-print-area{display:none;}
+  #pdf-print-area h1{color:#0b1f3a;font-size:20px;margin:0 0 2px;}
+  #pdf-print-area .sub{color:#5a6b85;font-size:12px;margin-bottom:18px;}
+  #pdf-print-area h3{background:#13315c;color:#fff;padding:9px 12px;border-radius:5px;font-size:19px;font-weight:800;margin-top:22px;}
+  #pdf-print-area table{width:100%;border-collapse:collapse;margin-bottom:6px;font-size:11.5px;}
+  #pdf-print-area th{background:#e8edf5;color:#0b1f3a;text-align:left;padding:6px 7px;border:1px solid #d7deea;}
+  #pdf-print-area td{padding:6px 7px;border:1px solid #d7deea;}
+  #pdf-print-area .totales{margin-top:18px;font-size:13px;font-weight:bold;}
+  #pdf-print-area, #pdf-print-area *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+
+  #cierre-print-area{display:none;}
+
+  @media print{
+    body *{visibility:hidden;}
+    body.print-reporte #pdf-print-area,body.print-reporte #pdf-print-area *{visibility:visible;}
+    body.print-cierre #cierre-print-area,body.print-cierre #cierre-print-area *{visibility:visible;}
+    #pdf-print-area,#cierre-print-area{
+      display:block !important;
+      position:absolute;top:0;left:0;width:100%;
+      padding:24px;font-family:Arial,sans-serif;color:#0b1f3a;
+    }
+    #cierre-print-area table{width:100%;border-collapse:collapse;font-size:11px;}
+    #cierre-print-area th{background:#e8edf5;color:#0b1f3a;text-align:left;padding:5px 7px;border:1px solid #d7deea;}
+    #cierre-print-area td{padding:5px 7px;border:1px solid #d7deea;}
+    #cierre-print-area h2{color:#0b1f3a;font-size:16px;margin:0 0 4px;}
+    #cierre-print-area h3{background:#13315c;color:#fff;padding:6px 10px;font-size:12px;margin:14px 0 4px;}
+    #cierre-print-area .sub{color:#5a6b85;font-size:11px;margin-bottom:14px;}
+  }
+</style>
+
+</head><body><div class="cl-app" id="clApp">
+  <div class="cl-header">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+      <div>
+        <h1>Control de Liquidación</h1>
+        <p>Registro · Liquidación por túnel · Reporte consolidado</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span id="storage-status" style="font-size: 11px; padding: 3px 9px; border-radius: 20px; font-weight: 700; background: rgba(28, 122, 77, 0.25); color: rgb(189, 240, 211);">● Guardado en este navegador</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="cl-btn secondary" id="btn-exportar-respaldo" type="button" style="padding:6px 12px;font-size:12px;">Exportar respaldo</button>
+          <label class="cl-btn secondary" for="input-restaurar-respaldo" style="padding:6px 12px;font-size:12px;cursor:pointer;margin:0;">Restaurar respaldo</label>
+          <input type="file" id="input-restaurar-respaldo" accept="application/json" style="display:none;">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cl-tabs">
+    <div class="cl-tab active" data-tab="registro">1 · Registro de datos</div>
+    <div class="cl-tab" data-tab="liquidacion">2 · Liquidación</div>
+    <div class="cl-tab" data-tab="reporte">3 · Historial / Reporte</div>
+    <div class="cl-tab" data-tab="reporte-lote">4 · Reporte por Lote</div>
+  </div>
+  <div class="cl-body">
+
+    <!-- SECCION 1: REGISTRO -->
+    <div class="cl-section active" id="sec-registro">
+      <p class="cl-section-title">Datos enviados por producción</p>
+      <div id="edit-banner-reg" class="cl-edit-mode" style="display: none;">
+        <div class="cl-edit-banner">✏️ Modo edición — modifica los campos y haz clic en Actualizar</div>
+        <button class="cl-btn warning sm" id="btn-cancelar-edicion-reg" type="button">Cancelar edición</button>
+      </div>
+      <div class="cl-grid">
+        <div class="cl-field"><label>Lote máscara</label><input id="r-tipoLote" type="text"></div>
+        <div class="cl-field"><label>Item</label><input id="r-item" type="text"></div>
+        <div class="cl-field"><label>N° de proforma</label><input id="r-proforma" type="text"></div>
+        <div class="cl-field"><label>Importador</label><input id="r-importador" type="text"></div>
+        <div class="cl-field">
+          <label>Talla</label>
+          <select id="r-talla">
+            <option value="">Selecciona…</option>
+            <optgroup label="Talla de camarón (cola)">
+              <option value="U-12">U-12</option><option value="U15">U15</option>
+              <option value="16/20">16/20</option><option value="21/25">21/25</option>
+              <option value="26/30">26/30</option><option value="31/35">31/35</option>
+              <option value="36/40">36/40</option><option value="41/50">41/50</option>
+              <option value="51/60">51/60</option><option value="61/70">61/70</option>
+              <option value="71/90">71/90</option><option value="91/110">91/110</option>
+	      <option value="110/130">110/130</option><option value="140/180">140/180</option>
+              <option value="BM">BM</option><option value="BL">BL</option>
+              <option value="BS">BS</option><option value="Juvenil">Juvenil</option>
+            </optgroup>
+            <optgroup label="Talla de camarón (entero)">
+              <option value="10/20">10/20</option><option value="20/30">20/30</option>
+              <option value="30/40">30/40</option><option value="40/50">40/50</option>
+              <option value="50/60">50/60</option><option value="60/70">60/70</option>
+              <option value="70/80">70/80</option><option value="80/100">80/100</option>
+	      <option value="110/130">110/130</option><option value="140/180">140/180</option>
+              <option value="100/120">100/120</option><option value="120/150">120/150</option>
+              <option value="150/200">150/200</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="cl-field"><label>Libras por empaque</label><input id="r-libras" type="number" min="0" step="0.01"></div>
+      </div>
+      <div class="cl-row-actions">
+        <button class="cl-btn" id="btn-guardar-registro">Guardar registro</button>
+        <button class="cl-btn secondary" id="btn-limpiar-registro" type="button">Limpiar</button>
+      </div>
+      <div class="cl-msg ok" id="msg-registro">Registro guardado correctamente.</div>
+      <div class="cl-field" style="max-width:320px;margin-bottom:10px;">
+        <label>Buscar en la tabla</label>
+        <input id="buscar-registros" type="text" placeholder="Lote, item, proforma, importador, talla...">
+      </div>
+      <div class="cl-table-wrap">
+        <table class="cl-table">
+          <thead><tr><th>Lote máscara</th><th>Item</th><th>Proforma</th><th>Importador</th><th>Talla</th><th>Libras por empaque</th><th>Fecha</th><th></th></tr></thead>
+          <tbody id="tabla-registros"><tr>
+        <td><span class="cl-badge mascara">R2645061</span></td>
+        <td>23230</td>
+        <td>17</td>
+        <td>PLYMOUTH</td>
+        <td>16/20</td>
+        <td>4</td>
+        <td>30/6/2026 11:23 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836594724">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836594724">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">25991-1</span></td>
+        <td>30215</td>
+        <td>28</td>
+        <td>HANWA TOKIO</td>
+        <td>16/20</td>
+        <td>3,96</td>
+        <td>30/6/2026 11:22 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836552844">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836552844">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">26948-1</span></td>
+        <td>24150</td>
+        <td>30</td>
+        <td>KANEMATSU</td>
+        <td>36/40</td>
+        <td>3,96</td>
+        <td>30/6/2026 11:20 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836452773">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836452773">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2642528</span></td>
+        <td>34075</td>
+        <td>53</td>
+        <td>MONARCH</td>
+        <td>21/25</td>
+        <td>4</td>
+        <td>30/6/2026 11:19 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836368477">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836368477">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2644374</span></td>
+        <td>26583</td>
+        <td>120</td>
+        <td>CONEXUS</td>
+        <td>31/35</td>
+        <td>4</td>
+        <td>30/6/2026 11:18 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836314285">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836314285">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2648494</span></td>
+        <td>34233</td>
+        <td>13</td>
+        <td>BAY HILL SEAFOOD</td>
+        <td>26/30</td>
+        <td>4</td>
+        <td>30/6/2026 11:17 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836258462">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836258462">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2649197</span></td>
+        <td>23231</td>
+        <td>19</td>
+        <td>PLYMOUTH</td>
+        <td>21/25</td>
+        <td>4</td>
+        <td>30/6/2026 11:16 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836211190">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836211190">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641385</span></td>
+        <td>22856</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>BL</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:13 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836026351">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836026351">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641384</span></td>
+        <td>22855</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>BM</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:13 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782836002055">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782836002055">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641382</span></td>
+        <td>22854</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>BS</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:10 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835858112">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835858112">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641378</span></td>
+        <td>23788</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>Juvenil</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:10 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835832089">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835832089">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641365</span></td>
+        <td>20871</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>91/110</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:10 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835813616">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835813616">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641352</span></td>
+        <td>20870</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>71/80</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:09 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835794642">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835794642">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641349</span></td>
+        <td>20869</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>61/70</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:09 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835768465">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835768465">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641347</span></td>
+        <td>20868</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>51/60</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:09 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835747209">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835747209">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641345</span></td>
+        <td>20867</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>41/50</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:08 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835724922">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835724922">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641341</span></td>
+        <td>20866</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>36/40</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:08 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835704178">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835704178">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641339</span></td>
+        <td>20865</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>31/35</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:08 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835684114">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835684114">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641338</span></td>
+        <td>20864</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>26/30</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:07 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835663835">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835663835">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641337</span></td>
+        <td>20863</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>21/25</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:07 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835637290">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835637290">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641335</span></td>
+        <td>20862</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>16/20</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:04 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835484828">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835484828">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641334</span></td>
+        <td>20861</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>U15</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:04 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835467172">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835467172">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641332</span></td>
+        <td>20860</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>U15</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:04 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835448085">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835448085">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641331</span></td>
+        <td>31352</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado D S/ON</td>
+        <td>U-12</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:03 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835425773">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835425773">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641436</span></td>
+        <td>24942</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>BL</td>
+        <td>4,99</td>
+        <td>30/6/2026 11:00 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835211800">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835211800">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641434</span></td>
+        <td>24941</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>BM</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:59 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835190072">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835190072">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641414</span></td>
+        <td>24943</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>BL</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:59 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835170296">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835170296">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641413</span></td>
+        <td>24916</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>Juvenil</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:59 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835147833">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835147833">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641409</span></td>
+        <td>20851</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>91/110</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:58 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835120234">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835120234">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641407</span></td>
+        <td>20850</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>71/80</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:58 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835099121">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835099121">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641406</span></td>
+        <td>20849</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>61/70</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:57 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835072837">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835072837">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641404</span></td>
+        <td>20848</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>51/60</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:57 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835047190">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835047190">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641402</span></td>
+        <td>20847</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>41/50</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:57 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782835023261">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782835023261">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641401</span></td>
+        <td>20846</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>36/40</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:56 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834999441">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834999441">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641398</span></td>
+        <td>20845</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>31/35</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:56 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834978866">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834978866">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641396</span></td>
+        <td>20844</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>26/30</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:55 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834951741">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834951741">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641394</span></td>
+        <td>20843</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>21/25</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:55 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834931422">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834931422">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641393</span></td>
+        <td>20842</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>16/20</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:55 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834909534">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834909534">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641390</span></td>
+        <td>20841</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>U15</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:54 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834882762">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834882762">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641388</span></td>
+        <td>20840</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado C S/ON</td>
+        <td>U-12</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:54 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834867850">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834867850">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641483</span></td>
+        <td>22866</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>BL</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:54 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834841565">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834841565">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641474</span></td>
+        <td>22865</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>BM</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:53 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834814942">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834814942">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641471</span></td>
+        <td>22864</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>BS</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:52 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834778814">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834778814">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641468</span></td>
+        <td>23787</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>Juvenil</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:52 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834759805">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834759805">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641461</span></td>
+        <td>20839</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>91/110</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:50 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834632837">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834632837">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641460</span></td>
+        <td>20838</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>71/80</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:50 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834606933">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834606933">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641458</span></td>
+        <td>20837</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>61/70</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:49 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834588277">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834588277">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641457</span></td>
+        <td>20836</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>51/60</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:49 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834571781">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834571781">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641453</span></td>
+        <td>20835</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>41/50</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:48 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834537285">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834537285">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641451</span></td>
+        <td>20834</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>36/40</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:48 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834509509">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834509509">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641449</span></td>
+        <td>20833</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>31/35</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:48 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834488213">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834488213">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641446</span></td>
+        <td>20832</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>26/30</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:47 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834464142">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834464142">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641444</span></td>
+        <td>20831</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>21/25</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:46 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834419622">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834419622">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641442</span></td>
+        <td>20830</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>16/20</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:46 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834400510">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834400510">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641440</span></td>
+        <td>20829</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>U15</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:46 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834382398">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834382398">Eliminar</button>
+        </td>
+      </tr><tr>
+        <td><span class="cl-badge mascara">R2641438</span></td>
+        <td>20828</td>
+        <td>N/A</td>
+        <td>HLSO GENERICO Grado B S/ON</td>
+        <td>U-12</td>
+        <td>4,99</td>
+        <td>30/6/2026 10:45 a. m.</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="reg_1782834358694">Editar</button>
+          <button class="cl-btn warning sm" data-del="reg_1782834358694">Eliminar</button>
+        </td>
+      </tr></tbody>
+        </table>
+      </div>
+      <div class="cl-empty" id="empty-registros" style="display: none;">Aún no hay registros guardados.</div>
+    </div>
+
+    <!-- SECCION 2: LIQUIDACION -->
+    <div class="cl-section" id="sec-liquidacion">
+      <p class="cl-section-title">Liquidación por coche</p>
+      <div class="cl-grid">
+        <div class="cl-field"><label>Túnel</label><select id="l-tunel"><option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option><option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option></select></div>
+        <div class="cl-field"><label>Turno</label><select id="l-turno"><option value="Día">Día</option><option value="Noche">Noche</option></select></div>
+        <div class="cl-field"><label># de coche</label><input id="l-coche" type="text"></div>
+        <div class="cl-field"><label>Fecha</label><input id="l-fecha" type="date"></div>
+        <div class="cl-field">
+          <label>Responsable</label>
+          <select id="l-responsable">
+            <option value="">Selecciona…</option>
+            <option value="CASTRO BURLAN">CASTRO BURLAN</option>
+            <option value="CUEVA GALO">CUEVA GALO</option>
+            <option value="DEXI BAQUE">DEXI BAQUE</option>
+            <option value="GUERRA CRISTHIAN">GUERRA CRISTHIAN</option>
+            <option value="MARIN LUIS">MARIN LUIS</option>
+            <option value="MONTERO JOSUE">MONTERO JOSUE</option>
+            <option value="NAVAS JOHN">NAVAS JOHN</option>
+            <option value="POZO GIANCARLO">POZO GIANCARLO</option>
+            <option value="SANTANA YAJAIRA">SANTANA YAJAIRA</option>
+            <option value="SANTOS EDGAR">SANTOS EDGAR</option>
+            <option value="SUAREZ LUIS">SUAREZ LUIS</option>
+            <option value="VALDEZ JAIR">VALDEZ JAIR</option>
+            <option value="VILLAFUERTE JEFFERSON">VILLAFUERTE JEFFERSON</option>
+          </select>
+        </div>
+        <div class="cl-field">
+          <label>Lote máscara</label>
+          <input id="l-registro" type="text" list="lotes-datalist" autocomplete="off">
+          <datalist id="lotes-datalist"><option value="R2641438"></option><option value="R2641440"></option><option value="R2641442"></option><option value="R2641444"></option><option value="R2641446"></option><option value="R2641449"></option><option value="R2641451"></option><option value="R2641453"></option><option value="R2641457"></option><option value="R2641458"></option><option value="R2641460"></option><option value="R2641461"></option><option value="R2641468"></option><option value="R2641471"></option><option value="R2641474"></option><option value="R2641483"></option><option value="R2641388"></option><option value="R2641390"></option><option value="R2641393"></option><option value="R2641394"></option><option value="R2641396"></option><option value="R2641398"></option><option value="R2641401"></option><option value="R2641402"></option><option value="R2641404"></option><option value="R2641406"></option><option value="R2641407"></option><option value="R2641409"></option><option value="R2641413"></option><option value="R2641414"></option><option value="R2641434"></option><option value="R2641436"></option><option value="R2641331"></option><option value="R2641332"></option><option value="R2641334"></option><option value="R2641335"></option><option value="R2641337"></option><option value="R2641338"></option><option value="R2641339"></option><option value="R2641341"></option><option value="R2641345"></option><option value="R2641347"></option><option value="R2641349"></option><option value="R2641352"></option><option value="R2641365"></option><option value="R2641378"></option><option value="R2641382"></option><option value="R2641384"></option><option value="R2641385"></option><option value="R2649197"></option><option value="R2648494"></option><option value="R2644374"></option><option value="R2642528"></option><option value="26948-1"></option><option value="25991-1"></option><option value="R2645061"></option></datalist>
+          <div id="lote-coincidencias" style="margin-top:6px;display:none;"></div>
+        </div>
+        <div class="cl-field"><label>Lote Fresco / Reproceso</label><input id="l-tipo" type="text"></div>
+        <div class="cl-field"><label>Item</label><input id="l-item" type="text" class="cl-readonly" readonly=""></div>
+        <div class="cl-field"><label>Proforma</label><input id="l-proforma" type="text" class="cl-readonly" readonly=""></div>
+        <div class="cl-field"><label>Importador</label><input id="l-importador" type="text" class="cl-readonly" readonly=""></div>
+        <div class="cl-field"><label>Talla</label><input id="l-talla" type="text" class="cl-readonly" readonly=""></div>
+        <div class="cl-field"><label>Cajas por coche</label><input id="l-cajas" type="number" min="0" step="1"></div>
+        <div class="cl-field"><label>Peso por empaque</label><input id="l-peso" type="text" class="cl-readonly" readonly=""></div>
+        <div class="cl-field"><label>Total libras ingresadas</label><input id="l-total" type="text" class="cl-readonly" readonly="" value="0.00"></div>
+        <div class="cl-field"><label>Descripción (opcional)</label><input id="l-descripcion" type="text" placeholder="Ej: Muestra"></div>
+        <div class="cl-field"><label>Libras totales a comparar (opcional)</label><input id="l-libras-comparar" type="number" min="0" step="0.01" placeholder="Ej: 40000"></div>
+      </div>
+      <div class="cl-summary-cards" id="progreso-lote-cards" style="margin-top:4px;">
+        <div class="cl-card"><div class="cl-card-label">Total libras (Lote Fresco / Reproceso)</div><div class="cl-card-value" id="progreso-total-libras">0</div></div>
+        <div class="cl-card"><div class="cl-card-label">% Avance</div><div class="cl-card-value" id="progreso-porcentaje">—</div></div>
+        <div class="cl-card"><div class="cl-card-label">Total cajas (Coche)</div><div class="cl-card-value" id="progreso-cajas-coche">0</div></div>
+      </div>
+      <div class="cl-row-actions">
+        <button class="cl-btn" id="btn-guardar-liquidacion">Guardar liquidación</button>
+        <button class="cl-btn secondary" id="btn-limpiar-liquidacion" type="button">Limpiar</button>
+        <button class="cl-btn success" id="btn-excel-liquidaciones" type="button">⬇ Excel liquidaciones</button>
+        <button class="cl-btn warning" id="btn-borrar-todo-liquidaciones" type="button">🗑 Borrar toda la información</button>
+      </div>
+      <div class="cl-msg" id="msg-liquidacion"></div>
+      <div class="cl-row-actions" style="margin-bottom:10px;">
+        <div class="cl-field" style="min-width:150px;"><label>Filtrar por fecha</label>
+          <input id="lq-filtro-fecha" type="date">
+        </div>
+        <div class="cl-field" style="min-width:140px;"><label>Filtrar por turno</label>
+          <select id="lq-filtro-turno">
+            <option value="todos">Todos</option>
+            <option value="Día">Día</option>
+            <option value="Noche">Noche</option>
+          </select>
+        </div>
+        <div class="cl-field" style="min-width:140px;"><label>Filtrar por túnel</label>
+          <select id="lq-filtro-tunel">
+            <option value="todos">Todos</option>
+            <option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option>
+          </select>
+        </div>
+        <button class="cl-btn secondary" id="btn-limpiar-filtro-liq" type="button">Limpiar filtro</button>
+      </div>
+      <div class="cl-row-actions" style="margin-bottom:10px;padding:10px 12px;background:#fdf3d9;border-radius:6px;">
+        <strong style="font-size:12px;color:#0b1f3a;white-space:nowrap;">Cambiar túnel a todos los datos guardados:</strong>
+        <div class="cl-field" style="min-width:140px;"><label>Túnel actual</label>
+          <select id="cambiar-tunel-origen">
+            <option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option>
+          </select>
+        </div>
+        <div class="cl-field" style="min-width:140px;"><label>Nuevo túnel</label>
+          <select id="cambiar-tunel-destino">
+            <option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option>
+          </select>
+        </div>
+        <button class="cl-btn warning" id="btn-cambiar-tunel-masivo" type="button">Cambiar túnel</button>
+      </div>
+      <div class="cl-field" style="max-width:320px;margin-bottom:10px;">
+        <label>Buscar en la tabla</label>
+        <input id="buscar-liquidaciones" type="text" placeholder="Importador, coche, lote, item, responsable...">
+      </div>
+      <div class="cl-table-wrap">
+        <table class="cl-table">
+          <thead><tr><th>Túnel</th><th>Turno</th><th>Fecha</th><th>Importador</th><th>Coche</th><th>Lote máscara</th><th>Item</th><th>Talla</th><th>Cajas</th><th>Peso emp.</th><th>Total lb</th><th>Lote Fresco / Reproceso</th><th>Descripción</th><th></th></tr></thead>
+          <tbody id="tabla-liquidaciones"></tbody>
+        </table>
+      </div>
+      <div class="cl-empty" id="empty-liquidaciones" style="display: block;">Aún no hay liquidaciones guardadas.</div>
+
+      <p class="cl-section-title" style="margin-top:22px;padding:8px 12px;background:#eaf1ff;border-radius:5px;">Cantidades adicionales por Lote (MPVA, Repaso, Basura/Nac)</p>
+      <div class="cl-grid">
+        <div class="cl-field"><label>Lote</label><input id="rl-extra-lote" type="text" placeholder="Ej: 20202"></div>
+        <div class="cl-field">
+          <label>Tipo</label>
+          <select id="rl-extra-tipo">
+            <option value="">Selecciona…</option>
+            <option value="MPVA">MPVA</option>
+            <option value="Repaso">Repaso</option>
+            <option value="Basura/Nac">Basura/Nac</option>
+          </select>
+        </div>
+        <div class="cl-field">
+          <label>Talla</label>
+          <select id="rl-extra-talla">
+            <option value="">Selecciona…</option>
+            <option value="N/A">N/A</option>
+            <optgroup label="Talla de camarón (cola)">
+              <option value="U-12">U-12</option><option value="U15">U15</option>
+              <option value="16/20">16/20</option><option value="21/25">21/25</option>
+              <option value="26/30">26/30</option><option value="31/35">31/35</option>
+              <option value="36/40">36/40</option><option value="41/50">41/50</option>
+              <option value="51/60">51/60</option><option value="61/70">61/70</option>
+              <option value="71/90">71/90</option><option value="91/110">91/110</option>
+	      <option value="110/130">110/130</option><option value="140/180">140/180</option>
+              <option value="BM">BM</option><option value="BL">BL</option>
+              <option value="BS">BS</option><option value="Juvenil">Juvenil</option>
+            </optgroup>
+            <optgroup label="Talla de camarón (entero)">
+              <option value="10/20">10/20</option><option value="20/30">20/30</option>
+              <option value="30/40">30/40</option><option value="40/50">40/50</option>
+              <option value="50/60">50/60</option><option value="60/70">60/70</option>
+              <option value="70/80">70/80</option><option value="80/100">80/100</option>
+              <option value="100/120">100/120</option><option value="120/150">120/150</option>
+              <option value="150/200">150/200</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="cl-field">
+          <label>Clase</label>
+          <select id="rl-extra-clase">
+            <option value="">Selecciona…</option>
+            <option value="1era">1era</option>
+            <option value="2da">2da</option>
+            <option value="N/A">N/A</option>
+          </select>
+        </div>
+        <div class="cl-field"><label>Libras</label><input id="rl-extra-libras" type="number" min="0" step="0.01" placeholder="0"></div>
+        <div class="cl-field">
+          <label>Turno</label>
+          <select id="rl-extra-turno">
+            <option value="">Selecciona…</option>
+            <option value="Día">Día</option>
+            <option value="Noche">Noche</option>
+          </select>
+        </div>
+        <div class="cl-field"><label>Fecha</label><input id="rl-extra-fecha" type="date"></div>
+      </div>
+      <div class="cl-row-actions">
+        <button class="cl-btn" id="btn-guardar-extra-lote" type="button">Guardar cantidades</button>
+        <button class="cl-btn secondary" id="btn-limpiar-extra-lote" type="button">Limpiar</button>
+      </div>
+      <div class="cl-msg" id="msg-extra-lote"></div>
+      <div class="cl-row-actions" style="margin-top:14px;margin-bottom:6px;">
+        <div class="cl-field" style="min-width:150px;"><label>Filtrar por lote</label><input id="extra-filtro-lote" type="text" placeholder="Ej: 20202"></div>
+        <div class="cl-field" style="min-width:140px;"><label>Filtrar por turno</label>
+          <select id="extra-filtro-turno">
+            <option value="todos">Todos</option>
+            <option value="Día">Día</option>
+            <option value="Noche">Noche</option>
+          </select>
+        </div>
+        <div class="cl-field" style="min-width:150px;"><label>Filtrar por fecha</label><input id="extra-filtro-fecha" type="date"></div>
+        <button class="cl-btn secondary" id="btn-limpiar-filtro-extra" type="button">Limpiar filtro</button>
+        <button class="cl-btn warning" id="btn-borrar-todo-extras" type="button">🗑 Borrar toda la información</button>
+      </div>
+      <div class="cl-table-wrap">
+        <table class="cl-table">
+          <thead><tr><th>Lote</th><th>Tipo</th><th>Talla</th><th>Clase</th><th>Libras</th><th>Turno</th><th>Fecha</th><th></th></tr></thead>
+          <tbody id="tabla-extras-lote"></tbody>
+        </table>
+        <div class="cl-empty" id="empty-extras-lote" style="display:none;">No hay cantidades adicionales registradas.</div>
+      </div>
+    </div>
+
+    <!-- SECCION 3: REPORTE -->
+    <div class="cl-section" id="sec-reporte">
+      <p class="cl-section-title">Consolidado por turno</p>
+      <div class="cl-filterbar">
+        <div class="cl-field"><label>Fecha desde</label><input id="rep-fecha-desde" type="date"></div>
+        <div class="cl-field"><label>Fecha hasta</label><input id="rep-fecha-hasta" type="date"></div>
+        <div class="cl-field"><label>Hora desde</label><input id="rep-hora-desde" type="time"></div>
+        <div class="cl-field"><label>Hora hasta</label><input id="rep-hora-hasta" type="time"></div>
+        <div class="cl-field">
+          <label>Turno</label>
+          <select id="rep-turno">
+            <option value="todos">Ambos turnos</option>
+            <option value="Día">Día</option>
+            <option value="Noche">Noche</option>
+          </select>
+        </div>
+        <div class="cl-field">
+          <label>Túnel</label>
+          <select id="rep-tunel">
+            <option value="todos">Todos los túneles</option>
+          <option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option><option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option></select>
+        </div>
+        <button class="cl-btn secondary" id="btn-limpiar-filtro-reporte" type="button">Quitar filtros</button>
+        <button class="cl-btn secondary" id="btn-refrescar-reporte" type="button">Actualizar</button>
+        <button class="cl-btn" id="btn-pdf-reporte" type="button">Reporte PDF</button>
+        <button class="cl-btn warning" id="btn-cierre-turno" type="button">📋 Cierre de turno</button>
+      </div>
+      <div class="cl-field" style="max-width:320px;margin-bottom:10px;">
+        <label>Buscar en la tabla</label>
+        <input id="buscar-reporte" type="text" placeholder="Importador, coche, lote, item, responsable...">
+      </div>
+
+      <!-- Descarga por túnel -->
+      <div style="background:var(--navy-soft);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:18px;">
+        <div style="font-size:12px;font-weight:700;color:var(--navy-2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">⬇ Descargar Excel por túnel</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+          <div class="cl-field" style="min-width:140px;">
+            <label>Túnel</label>
+            <select id="dl-tunel">
+              <option value="todos">Todos los túneles</option>
+            <option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option><option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option></select>
+          </div>
+          <div class="cl-field" style="min-width:120px;">
+            <label>Turno</label>
+            <select id="dl-turno">
+              <option value="todos">Ambos turnos</option>
+              <option value="Día">Día</option>
+              <option value="Noche">Noche</option>
+            </select>
+          </div>
+          <div class="cl-field" style="min-width:130px;">
+            <label>Fecha desde</label>
+            <input id="dl-fecha-desde" type="date">
+          </div>
+          <div class="cl-field" style="min-width:130px;">
+            <label>Fecha hasta</label>
+            <input id="dl-fecha-hasta" type="date">
+          </div>
+          <button class="cl-btn success" id="btn-excel-tunel" type="button" style="white-space:nowrap;">⬇ Descargar Excel</button>
+        </div>
+        <div class="cl-msg" id="msg-dl-tunel"></div>
+      </div>
+
+      <div class="cl-summary-cards" id="reporte-cards">
+      <div class="cl-card"><div class="cl-card-label">Total libras</div><div class="cl-card-value">0</div></div>
+      <div class="cl-card"><div class="cl-card-label">Total coches</div><div class="cl-card-value">0</div></div>
+      <div class="cl-card"><div class="cl-card-label">Total cajas</div><div class="cl-card-value">0</div></div>
+      <div class="cl-card"><div class="cl-card-label">Túneles activos</div><div class="cl-card-value">0</div></div>
+    </div>
+      <div id="reporte-tuneles"></div>
+      <div class="cl-empty" id="empty-reporte" style="display: block;">No hay liquidaciones para este filtro.</div>
+    </div>
+
+  </div>
+
+  <div class="cl-section" id="sec-reporte-lote">
+    <h2 class="cl-title">Reporte por Lote (general)</h2>
+    <div class="cl-row-actions" style="margin-bottom:14px;">
+      <div class="cl-field" style="min-width:150px;"><label>Fecha</label><input id="rl-filtro-fecha" type="date"></div>
+      <div class="cl-field" style="min-width:140px;"><label>Turno</label>
+        <select id="rl-filtro-turno">
+          <option value="todos">Todos</option>
+          <option value="Día">Día</option>
+          <option value="Noche">Noche</option>
+        </select>
+      </div>
+      <div class="cl-field" style="min-width:160px;"><label>Lote</label>
+        <select id="rl-filtro-lote">
+          <option value="todos">Todos</option>
+        </select>
+      </div>
+      <button class="cl-btn secondary" id="btn-limpiar-filtro-lote" type="button">Limpiar filtro</button>
+      <button class="cl-btn" id="btn-pdf-reporte-lote" type="button">Reporte PDF por Lote</button>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);margin-top:-6px;">
+      Genera un reporte agrupado únicamente por Lote (Fresco / Reproceso), sin separar por túnel, incluyendo el Item de cada lote.
+    </p>
+
+    <p class="cl-section-title" style="margin-top:22px;padding:8px 12px;background:#fdf3d9;border-radius:5px;">Libras recibidas por Lote (para calcular rendimiento)</p>
+    <div class="cl-grid">
+      <div class="cl-field"><label>Lote</label><input id="rl-recibido-lote" type="text" placeholder="Ej: 30807"></div>
+      <div class="cl-field"><label>Libras recibidas</label><input id="rl-recibido-libras" type="number" min="0" step="0.01" placeholder="Ej: 42000"></div>
+    </div>
+    <div class="cl-row-actions">
+      <button class="cl-btn" id="btn-guardar-recibido" type="button">Guardar libras recibidas</button>
+      <button class="cl-btn secondary" id="btn-limpiar-recibido" type="button">Limpiar</button>
+      <button class="cl-btn warning" id="btn-borrar-todo-recibidos" type="button">🗑 Borrar toda la información</button>
+    </div>
+    <div class="cl-msg" id="msg-recibido"></div>
+    <div class="cl-table-wrap">
+      <table class="cl-table">
+        <thead><tr><th>Lote</th><th>Libras recibidas</th><th></th></tr></thead>
+        <tbody id="tabla-recibidos-lote"></tbody>
+      </table>
+      <div class="cl-empty" id="empty-recibidos-lote" style="display:none;">No hay libras recibidas registradas.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal cierre de turno -->
+<div class="cl-modal-overlay" id="modal-cierre">
+  <div class="cl-modal">
+    <div class="cl-modal-header">
+      <h2>📋 Cierre de turno</h2>
+      <button class="cl-modal-close" id="btn-cerrar-modal">×</button>
+    </div>
+    <div class="cl-modal-body">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:flex-end;">
+        <div class="cl-field"><label>Fecha</label><input id="cierre-fecha" type="date"></div>
+        <div class="cl-field">
+          <label>Turno</label>
+          <select id="cierre-turno">
+            <option value="todos">Ambos</option>
+            <option value="Día">Día</option>
+            <option value="Noche">Noche</option>
+          </select>
+        </div>
+        <div class="cl-field">
+          <label>Túnel</label>
+          <select id="cierre-tunel">
+            <option value="todos">Todos</option>
+          <option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option><option value="1">Túnel 1</option><option value="2">Túnel 2</option><option value="3">Túnel 3</option><option value="4">Túnel 4</option><option value="5">Túnel 5</option><option value="6">Túnel 6</option><option value="7">Túnel 7</option><option value="8">Túnel 8</option><option value="9">Túnel 9</option><option value="10">Túnel 10</option></select>
+        </div>
+        <button class="cl-btn secondary" id="btn-aplicar-cierre" type="button">Aplicar</button>
+        <button class="cl-btn" id="btn-imprimir-cierre" type="button">🖨 Imprimir</button>
+      </div>
+      <div id="cierre-contenido"></div>
+    </div>
+  </div>
+</div>
+
+<div id="pdf-print-area"></div>
+<div id="cierre-print-area"></div>
+
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+  const esc = (str) => {
+    if(str === null || str === undefined) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  };
+
+  // ---------- Tabs ----------
+  document.querySelectorAll('.cl-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cl-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.cl-section').forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      $('sec-' + tab.dataset.tab).classList.add('active');
+      document.body.classList.remove('print-reporte','print-cierre');
+      if(tab.dataset.tab === 'liquidacion') refreshRegistroSelect();
+      if(tab.dataset.tab === 'reporte') renderReporte();
+      if(tab.dataset.tab === 'reporte-lote') refreshFiltroLoteSelect();
+    });
+  });
+
+  // ---------- Populate túnel selects ----------
+  const tunelSelectLiq = $('l-tunel');
+  const tunelSelectRep = $('rep-tunel');
+  const tunelSelectCierre = $('cierre-tunel');
+  const tunelSelectDl = $('dl-tunel');
+  for(let i=1;i<=10;i++){
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = 'Túnel ' + i;
+    tunelSelectLiq.appendChild(opt.cloneNode(true));
+    tunelSelectRep.appendChild(opt.cloneNode(true));
+    tunelSelectCierre.appendChild(opt.cloneNode(true));
+    tunelSelectDl.appendChild(opt.cloneNode(true));
+  }
+
+  // ---------- Storage ----------
+  const STORAGE_PREFIX = 'controlLiquidacionEZP_';
+  function hayStorageClaude(){ return typeof window.storage !== 'undefined' && window.storage && typeof window.storage.get === 'function'; }
+  async function getList(key){
+    if(hayStorageClaude()){ try{ const res = await window.storage.get(key); if(res) return JSON.parse(res.value); }catch(e){} }
+    try{ const raw = localStorage.getItem(STORAGE_PREFIX + key); return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
+  }
+  async function setList(key, list){
+    if(hayStorageClaude()){ try{ await window.storage.set(key, JSON.stringify(list)); }catch(e){} }
+    try{ localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(list)); }
+    catch(e){ alert('No se pudo guardar. Revisa que no estés en modo incógnito.'); }
+  }
+
+  function actualizarIndicadorStorage(){
+    const badge = $('storage-status');
+    let ok = false;
+    try{ localStorage.setItem('__test_cl__','1'); localStorage.removeItem('__test_cl__'); ok = true; }catch(e){}
+    badge.textContent = ok ? '● Guardado en este navegador' : '⚠ Sin almacenamiento local';
+    badge.style.background = ok ? 'rgba(28,122,77,.25)' : 'rgba(179,84,30,.25)';
+    badge.style.color = ok ? '#bdf0d3' : '#ffd9b8';
+  }
+  actualizarIndicadorStorage();
+
+  let registros = [];
+  let liquidaciones = [];
+  let extrasLote = [];
+  let librasRecibidas = [];
+  let editandoRegId = null;
+
+  function fmtFecha(){ const d = new Date(); return d.toLocaleDateString('es-EC') + ' ' + d.toLocaleTimeString('es-EC',{hour:'2-digit',minute:'2-digit'}); }
+  function todayStr(){ const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  function fechaLiquidacionDefault(){
+    const d = new Date();
+    if(d.getHours() < 7){ d.setDate(d.getDate()-1); }
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+  function badgeLote(tipo){ if(!tipo) return '<span class="cl-badge fresco">—</span>'; return '<span class="cl-badge mascara">' + esc(tipo) + '</span>'; }
+  function agruparPor(lista, claveFn){ const g = {}; lista.forEach(item => { const c = claveFn(item)||'Sin dato'; if(!g[c]) g[c]=[]; g[c].push(item); }); return g; }
+
+  // ================= SECCION 1: REGISTRO =================
+  async function loadRegistros(){ registros = await getList('registros'); renderRegistros(); refreshRegistroSelect(); }
+
+  function renderRegistros(){
+    const tbody = $('tabla-registros');
+    tbody.innerHTML = '';
+    const busqueda = ($('buscar-registros').value || '').trim().toLowerCase();
+    const lista = busqueda ? registros.filter(r => {
+      return [r.tipoLote, r.item, r.proforma, r.importador, r.talla].some(v => (v||'').toString().toLowerCase().includes(busqueda));
+    }) : registros;
+    $('empty-registros').style.display = lista.length ? 'none' : 'block';
+    lista.slice().reverse().forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${badgeLote(r.tipoLote)}</td>
+        <td>${esc(r.item)}</td>
+        <td>${esc(r.proforma)}</td>
+        <td>${esc(r.importador)}</td>
+        <td>${esc(r.talla) || '—'}</td>
+        <td>${Number(r.libras).toLocaleString('es-EC')}</td>
+        <td>${r.fecha}</td>
+        <td style="display:flex;gap:6px;padding:8px 10px;">
+          <button class="cl-btn secondary sm" data-edit="${r.id}">Editar</button>
+          <button class="cl-btn warning sm" data-del="${r.id}">Eliminar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('[data-edit]').forEach(btn => {
+      btn.addEventListener('click', () => iniciarEdicionReg(btn.dataset.edit));
+    });
+    tbody.querySelectorAll('[data-del]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if(!confirm('¿Seguro que quieres eliminar este registro?')) return;
+        registros = registros.filter(r => r.id !== btn.dataset.del);
+        await setList('registros', registros);
+        renderRegistros(); refreshRegistroSelect();
+      });
+    });
+  }
+
+  function iniciarEdicionReg(id){
+    const r = registros.find(x => x.id === id);
+    if(!r) return;
+    editandoRegId = id;
+    $('r-tipoLote').value = r.tipoLote;
+    $('r-item').value = r.item;
+    $('r-proforma').value = r.proforma;
+    $('r-importador').value = r.importador;
+    $('r-talla').value = r.talla || '';
+    $('r-libras').value = r.libras;
+    $('btn-guardar-registro').textContent = 'Actualizar registro';
+    $('edit-banner-reg').style.display = 'block';
+    $('r-tipoLote').scrollIntoView({behavior:'smooth', block:'center'});
+    $('r-tipoLote').focus();
+  }
+
+  function cancelarEdicionReg(){
+    editandoRegId = null;
+    $('btn-guardar-registro').textContent = 'Guardar registro';
+    $('edit-banner-reg').style.display = 'none';
+    limpiarRegistroForm();
+  }
+  $('btn-cancelar-edicion-reg').addEventListener('click', cancelarEdicionReg);
+
+  $('btn-guardar-registro').addEventListener('click', async () => {
+    const tipoLote = $('r-tipoLote').value.trim();
+    const item = $('r-item').value.trim();
+    const proforma = $('r-proforma').value.trim();
+    const importador = $('r-importador').value.trim();
+    const talla = $('r-talla').value;
+    const libras = $('r-libras').value;
+    const msg = $('msg-registro');
+    const campos = [{id:'r-tipoLote',val:tipoLote},{id:'r-item',val:item},{id:'r-proforma',val:proforma},{id:'r-importador',val:importador},{id:'r-libras',val:libras}];
+    let faltantes = [];
+    campos.forEach(c => { const el = $(c.id); if(!c.val){ el.classList.add('cl-error'); faltantes.push(c.id); } else { el.classList.remove('cl-error'); } });
+    if(faltantes.length){ msg.textContent='Completa todos los campos obligatorios.'; msg.className='cl-msg err'; $(faltantes[0]).focus(); return; }
+    if(parseFloat(libras)<=0){ $('r-libras').classList.add('cl-error'); msg.textContent='Las libras deben ser mayores a 0.'; msg.className='cl-msg err'; return; }
+
+    if(editandoRegId){
+      // Actualizar
+      const idx = registros.findIndex(x => x.id === editandoRegId);
+      if(idx !== -1){
+        registros[idx] = { ...registros[idx], tipoLote, item, proforma, importador, talla, libras: parseFloat(libras) };
+        await setList('registros', registros);
+        renderRegistros(); refreshRegistroSelect();
+        msg.textContent = 'Registro actualizado correctamente.'; msg.className='cl-msg ok';
+        cancelarEdicionReg();
+      }
+    } else {
+      // Nuevo
+      const nuevo = { id:'reg_'+Date.now(), tipoLote, item, proforma, importador, talla, libras:parseFloat(libras), fecha:fmtFecha() };
+      registros.push(nuevo);
+      await setList('registros', registros);
+      renderRegistros(); refreshRegistroSelect();
+      msg.textContent='Registro guardado correctamente.'; msg.className='cl-msg ok';
+      limpiarRegistroForm();
+    }
+  });
+
+  function limpiarRegistroForm(){
+    ['r-tipoLote','r-item','r-proforma','r-importador','r-libras'].forEach(id => { $(id).classList.remove('cl-error'); });
+    $('r-tipoLote').value=''; $('r-item').value=''; $('r-proforma').value=''; $('r-importador').value=''; $('r-talla').value=''; $('r-libras').value='';
+  }
+  $('btn-limpiar-registro').addEventListener('click', () => { cancelarEdicionReg(); limpiarRegistroForm(); });
+  $('buscar-registros').addEventListener('input', renderRegistros);
+  ['r-tipoLote','r-item','r-proforma','r-importador','r-libras'].forEach(id => { $(id).addEventListener('input', () => $(id).classList.remove('cl-error')); });
+  ['l-coche','l-fecha','l-responsable','l-cajas','l-tipo'].forEach(id => { $(id).addEventListener('input', () => $(id).classList.remove('cl-error')); });
+
+  // ================= SECCION 2: LIQUIDACION =================
+  function refreshRegistroSelect(){
+    const dl = $('lotes-datalist'); dl.innerHTML = '';
+    registros.forEach(r => { const opt = document.createElement('option'); opt.value = r.tipoLote; dl.appendChild(opt); });
+  }
+
+  let registroSeleccionadoId = null;
+  let editandoLiqId = null;
+
+  function aplicarLoteSeleccionado(){
+    const valor = $('l-registro').value.trim();
+    const coincidencias = registros.filter(x => x.tipoLote === valor);
+    const cont = $('lote-coincidencias');
+    if(coincidencias.length > 1){
+      cont.style.display = 'block';
+      cont.innerHTML = `<div style="font-size:12px;color:var(--warn);font-weight:600;margin-bottom:4px;">Hay ${coincidencias.length} registros con este lote. Selecciona el correcto:</div>`;
+      coincidencias.forEach(r => {
+        const b = document.createElement('button');
+        b.type='button'; b.className='cl-btn secondary';
+        b.style.cssText='display:block;width:100%;text-align:left;margin-bottom:4px;padding:6px 10px;font-size:12px;';
+        b.textContent=`Item ${r.item} · Proforma ${r.proforma} · ${r.importador} · ${r.talla||'sin talla'} · ${r.libras} lb`;
+        b.addEventListener('click', () => { registroSeleccionadoId=r.id; rellenarDesdeRegistro(r); cont.style.display='none'; cont.innerHTML=''; });
+        cont.appendChild(b);
+      });
+      registroSeleccionadoId = null; rellenarDesdeRegistro(null); return;
+    }
+    cont.style.display='none'; cont.innerHTML='';
+    const r = coincidencias.length ? coincidencias[0] : null;
+    registroSeleccionadoId = r ? r.id : null;
+    rellenarDesdeRegistro(r);
+  }
+
+  function rellenarDesdeRegistro(r){
+    $('l-item').value = r ? r.item : '';
+    $('l-proforma').value = r ? r.proforma : '';
+    $('l-importador').value = r ? r.importador : '';
+    $('l-talla').value = r ? (r.talla||'') : '';
+    $('l-peso').value = r ? r.libras.toFixed(2) : '';
+    calcularTotal();
+  }
+  $('l-registro').addEventListener('input', aplicarLoteSeleccionado);
+  $('l-registro').addEventListener('change', aplicarLoteSeleccionado);
+  $('l-registro').addEventListener('input', actualizarProgresoLote);
+  $('l-tipo').addEventListener('input', actualizarProgresoLote);
+  $('l-coche').addEventListener('input', actualizarProgresoLote);
+  $('l-libras-comparar').addEventListener('input', actualizarProgresoLote);
+
+  function calcularTotal(){ const c=parseFloat($('l-cajas').value)||0; const p=parseFloat($('l-peso').value)||0; $('l-total').value=(c*p).toFixed(2); actualizarProgresoLote(); }
+
+  function actualizarProgresoLote(){
+    const tipoTexto = $('l-tipo').value.trim();
+    const tipoNorm = tipoTexto.toLowerCase();
+    const totalGuardado = tipoTexto ? liquidaciones.filter(l => (l.tipo||'').toString().trim().toLowerCase() === tipoNorm).reduce((s,l)=>s+(Number(l.total)||0),0) : 0;
+    const totalExtras = tipoTexto ? extrasLote.filter(e => (e.lote||'').toString().trim().toLowerCase() === tipoNorm).reduce((s,e)=>s+(Number(e.libras)||0),0) : 0;
+    const totalActual = parseFloat($('l-total').value)||0;
+    const totalLote = totalGuardado + totalExtras + (editandoLiqId ? 0 : totalActual);
+    $('progreso-total-libras').textContent = totalLote.toLocaleString('es-EC');
+    const comparar = parseFloat($('l-libras-comparar').value)||0;
+    const porcEl = $('progreso-porcentaje');
+    if(comparar > 0){
+      const porc = (totalLote/comparar)*100;
+      porcEl.textContent = porc.toLocaleString('es-EC', {maximumFractionDigits:1}) + '%';
+      porcEl.style.color = porc >= 100 ? 'var(--good, #1e824c)' : 'var(--navy)';
+    } else {
+      porcEl.textContent = '—';
+      porcEl.style.color = '';
+    }
+    const cocheTexto = $('l-coche').value.trim();
+    const cocheNorm = cocheTexto.toLowerCase();
+    const cajasGuardadas = cocheTexto ? liquidaciones.filter(l => (l.coche||'').toString().trim().toLowerCase() === cocheNorm).reduce((s,l)=>s+(Number(l.cajas)||0),0) : 0;
+    const cajasActual = parseFloat($('l-cajas').value)||0;
+    const totalCajasCoche = cajasGuardadas + (editandoLiqId ? 0 : cajasActual);
+    $('progreso-cajas-coche').textContent = cocheTexto ? totalCajasCoche.toLocaleString('es-EC') : '0';
+  }
+  $('l-cajas').addEventListener('input', calcularTotal);
+  $('l-peso').addEventListener('input', calcularTotal);
+
+  async function loadLiquidaciones(){ liquidaciones = await getList('liquidaciones'); renderLiquidaciones(); }
+
+  async function loadExtrasLote(){ extrasLote = await getList('extrasLote'); renderExtrasLote(); }
+
+  async function loadLibrasRecibidas(){ librasRecibidas = await getList('librasRecibidas'); renderLibrasRecibidas(); }
+
+  function renderLibrasRecibidas(){
+    const tbody = $('tabla-recibidos-lote');
+    tbody.innerHTML = '';
+    $('empty-recibidos-lote').style.display = librasRecibidas.length ? 'none' : 'block';
+    librasRecibidas.slice().reverse().forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${esc(r.lote)}</td>
+        <td>${r.libras ? Number(r.libras).toLocaleString('es-EC') : '—'}</td>
+        <td style="white-space:nowrap;"><button class="cl-btn secondary sm" data-edit-recibido="${r.id}">Editar</button> <button class="cl-btn warning sm" data-del-recibido="${r.id}">Eliminar</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('[data-del-recibido]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if(!confirm('¿Eliminar estas libras recibidas?')) return;
+        librasRecibidas = librasRecibidas.filter(r => r.id !== btn.dataset.delRecibido);
+        await setList('librasRecibidas', librasRecibidas);
+        renderLibrasRecibidas();
+      });
+    });
+    tbody.querySelectorAll('[data-edit-recibido]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const r = librasRecibidas.find(x => x.id === btn.dataset.editRecibido);
+        if(!r) return;
+        editandoRecibidoId = r.id;
+        $('rl-recibido-lote').value = r.lote || '';
+        $('rl-recibido-libras').value = r.libras || '';
+        $('btn-guardar-recibido').textContent = 'Actualizar libras recibidas';
+        const msg=$('msg-recibido'); msg.textContent='Editando. Guarda para actualizar.'; msg.className='cl-msg ok';
+      });
+    });
+  }
+
+  let editandoRecibidoId = null;
+  function limpiarRecibidoForm(){
+    editandoRecibidoId = null;
+    $('rl-recibido-lote').value=''; $('rl-recibido-libras').value='';
+    $('rl-recibido-lote').classList.remove('cl-error');
+    $('btn-guardar-recibido').textContent = 'Guardar libras recibidas';
+  }
+  $('btn-limpiar-recibido').addEventListener('click', () => { limpiarRecibidoForm(); $('msg-recibido').textContent=''; });
+  $('btn-borrar-todo-recibidos').addEventListener('click', async () => {
+    if(!librasRecibidas.length){ alert('No hay libras recibidas para borrar.'); return; }
+    if(!confirm('¿Seguro que quieres borrar TODA la información de libras recibidas por lote? Esta acción no se puede deshacer.')) return;
+    if(!confirm('Última confirmación: se eliminarán ' + librasRecibidas.length + ' registro(s). ¿Continuar?')) return;
+    librasRecibidas = [];
+    await setList('librasRecibidas', librasRecibidas);
+    renderLibrasRecibidas();
+    const msg=$('msg-recibido'); msg.textContent='Se borró toda la información de libras recibidas.'; msg.className='cl-msg ok';
+  });
+  $('btn-guardar-recibido').addEventListener('click', async () => {
+    const lote = $('rl-recibido-lote').value.trim();
+    const msg = $('msg-recibido');
+    if(!lote){ $('rl-recibido-lote').classList.add('cl-error'); msg.textContent='Debes indicar el Lote.'; msg.className='cl-msg err'; return; }
+    $('rl-recibido-lote').classList.remove('cl-error');
+    const libras = parseFloat($('rl-recibido-libras').value)||0;
+    if(editandoRecibidoId){
+      const idx = librasRecibidas.findIndex(r => r.id === editandoRecibidoId);
+      if(idx !== -1){
+        librasRecibidas[idx] = { ...librasRecibidas[idx], lote, libras };
+        await setList('librasRecibidas', librasRecibidas);
+        renderLibrasRecibidas();
+        msg.textContent='Libras recibidas actualizadas correctamente.'; msg.className='cl-msg ok';
+        limpiarRecibidoForm();
+      }
+      return;
+    }
+    const idxExistente = librasRecibidas.findIndex(r => r.lote.trim().toLowerCase() === lote.toLowerCase());
+    if(idxExistente !== -1){
+      librasRecibidas[idxExistente] = { ...librasRecibidas[idxExistente], libras };
+      await setList('librasRecibidas', librasRecibidas);
+      renderLibrasRecibidas();
+      msg.textContent='Ya existía ese Lote; se actualizó el valor de libras recibidas.'; msg.className='cl-msg ok';
+      limpiarRecibidoForm();
+      return;
+    }
+    const nuevo = { id:'recibido_'+Date.now(), lote, libras };
+    librasRecibidas.push(nuevo);
+    await setList('librasRecibidas', librasRecibidas);
+    renderLibrasRecibidas();
+    msg.textContent='Libras recibidas guardadas correctamente.'; msg.className='cl-msg ok';
+    limpiarRecibidoForm();
+  });
+  $('rl-recibido-lote').addEventListener('input', () => $('rl-recibido-lote').classList.remove('cl-error'));
+
+  function extrasFiltradas(){
+    const lote = ($('extra-filtro-lote').value || '').trim().toLowerCase();
+    const turno = $('extra-filtro-turno').value;
+    const fecha = $('extra-filtro-fecha').value;
+    return extrasLote.filter(e => {
+      if(lote && !(e.lote||'').toLowerCase().includes(lote)) return false;
+      if(turno!=='todos' && e.turno!==turno) return false;
+      if(fecha && e.fecha!==fecha) return false;
+      return true;
+    });
+  }
+
+  function renderExtrasLote(){
+    const tbody = $('tabla-extras-lote');
+    tbody.innerHTML = '';
+    const lista = extrasFiltradas();
+    $('empty-extras-lote').style.display = lista.length ? 'none' : 'block';
+    lista.slice().reverse().forEach(e => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${esc(e.lote)}</td>
+        <td>${esc(e.tipo) || '—'}</td>
+        <td>${esc(e.talla) || '—'}</td>
+        <td>${esc(e.clase) || '—'}</td>
+        <td>${e.libras ? Number(e.libras).toLocaleString('es-EC') : '—'}</td>
+        <td>${esc(e.turno) || '—'}</td>
+        <td>${esc(e.fecha) || '—'}</td>
+        <td style="white-space:nowrap;"><button class="cl-btn secondary sm" data-edit-extra="${e.id}">Editar</button> <button class="cl-btn warning sm" data-del-extra="${e.id}">Eliminar</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('[data-del-extra]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if(!confirm('¿Eliminar esta cantidad adicional?')) return;
+        extrasLote = extrasLote.filter(e => e.id !== btn.dataset.delExtra);
+        await setList('extrasLote', extrasLote);
+        renderExtrasLote();
+        actualizarProgresoLote();
+      });
+    });
+    tbody.querySelectorAll('[data-edit-extra]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const e = extrasLote.find(x => x.id === btn.dataset.editExtra);
+        if(!e) return;
+        editandoExtraId = e.id;
+        $('rl-extra-lote').value = e.lote || '';
+        $('rl-extra-tipo').value = e.tipo || '';
+        $('rl-extra-talla').value = e.talla || '';
+        $('rl-extra-clase').value = e.clase || '';
+        $('rl-extra-libras').value = e.libras || '';
+        $('rl-extra-turno').value = e.turno || '';
+        $('rl-extra-fecha').value = e.fecha || '';
+        $('btn-guardar-extra-lote').textContent = 'Actualizar cantidades';
+        const msg=$('msg-extra-lote'); msg.textContent='Editando cantidades. Guarda para actualizar.'; msg.className='cl-msg ok';
+      });
+    });
+  }
+  $('extra-filtro-lote').addEventListener('input', renderExtrasLote);
+  $('extra-filtro-turno').addEventListener('change', renderExtrasLote);
+  $('extra-filtro-fecha').addEventListener('change', renderExtrasLote);
+  $('btn-limpiar-filtro-extra').addEventListener('click', () => { $('extra-filtro-lote').value=''; $('extra-filtro-turno').value='todos'; $('extra-filtro-fecha').value=''; renderExtrasLote(); });
+  $('btn-borrar-todo-extras').addEventListener('click', async () => {
+    if(!extrasLote.length){ alert('No hay cantidades adicionales para borrar.'); return; }
+    if(!confirm('¿Seguro que quieres borrar TODA la información de la tabla de cantidades adicionales? Esta acción no se puede deshacer.')) return;
+    if(!confirm('Última confirmación: se eliminarán ' + extrasLote.length + ' registros. ¿Continuar?')) return;
+    extrasLote = [];
+    await setList('extrasLote', extrasLote);
+    renderExtrasLote();
+    const msg=$('msg-extra-lote'); msg.textContent='Se borró toda la información de cantidades adicionales.'; msg.className='cl-msg ok';
+  });
+
+  let editandoExtraId = null;
+  function limpiarExtraLoteForm(resetTodo){
+    if(resetTodo === undefined) resetTodo = true;
+    editandoExtraId = null;
+    $('rl-extra-libras').value='';
+    if(resetTodo){
+      $('rl-extra-lote').value='';
+      $('rl-extra-tipo').value=''; $('rl-extra-talla').value=''; $('rl-extra-clase').value='';
+      $('rl-extra-turno').value=''; $('rl-extra-fecha').value='';
+    }
+    $('btn-guardar-extra-lote').textContent = 'Guardar cantidades';
+  }
+  $('btn-limpiar-extra-lote').addEventListener('click', () => { limpiarExtraLoteForm(true); $('msg-extra-lote').textContent=''; });
+  $('btn-guardar-extra-lote').addEventListener('click', async () => {
+    const lote = $('rl-extra-lote').value.trim();
+    const tipo = $('rl-extra-tipo').value;
+    const talla = $('rl-extra-talla').value;
+    const msg = $('msg-extra-lote');
+    let faltantes=[];
+    if(!lote){ $('rl-extra-lote').classList.add('cl-error'); faltantes.push('rl-extra-lote'); } else { $('rl-extra-lote').classList.remove('cl-error'); }
+    if(!tipo){ $('rl-extra-tipo').classList.add('cl-error'); faltantes.push('rl-extra-tipo'); } else { $('rl-extra-tipo').classList.remove('cl-error'); }
+    if(!talla){ $('rl-extra-talla').classList.add('cl-error'); faltantes.push('rl-extra-talla'); } else { $('rl-extra-talla').classList.remove('cl-error'); }
+    if(faltantes.length){ msg.textContent='Completa Lote, Tipo y Talla.'; msg.className='cl-msg err'; $(faltantes[0]).focus(); return; }
+    const clase = $('rl-extra-clase').value;
+    const libras = parseFloat($('rl-extra-libras').value)||0;
+    const turno = $('rl-extra-turno').value;
+    const fecha = $('rl-extra-fecha').value;
+    if(editandoExtraId){
+      const idx = extrasLote.findIndex(e => e.id === editandoExtraId);
+      if(idx !== -1){
+        extrasLote[idx] = { ...extrasLote[idx], lote, tipo, talla, clase, libras, turno, fecha };
+        await setList('extrasLote', extrasLote);
+        renderExtrasLote();
+        actualizarProgresoLote();
+        msg.textContent='Cantidades actualizadas correctamente.'; msg.className='cl-msg ok';
+        limpiarExtraLoteForm(true);
+      }
+      return;
+    }
+    const nuevo = { id:'extra_'+Date.now(), lote, tipo, talla, clase, libras, turno, fecha };
+    extrasLote.push(nuevo);
+    await setList('extrasLote', extrasLote);
+    renderExtrasLote();
+    actualizarProgresoLote();
+    msg.textContent='Cantidades guardadas correctamente.'; msg.className='cl-msg ok';
+    limpiarExtraLoteForm(false);
+  });
+  $('rl-extra-lote').addEventListener('input', () => $('rl-extra-lote').classList.remove('cl-error'));
+  $('rl-extra-tipo').addEventListener('change', () => $('rl-extra-tipo').classList.remove('cl-error'));
+  $('rl-extra-talla').addEventListener('change', () => $('rl-extra-talla').classList.remove('cl-error'));
+
+
+  function liquidacionesFiltradasTab(){
+    const turno = $('lq-filtro-turno').value;
+    const tunel = $('lq-filtro-tunel').value;
+    const fecha = $('lq-filtro-fecha').value;
+    const busqueda = ($('buscar-liquidaciones').value || '').trim().toLowerCase();
+    return liquidaciones.filter(l => {
+      if(turno!=='todos' && l.turno!==turno) return false;
+      if(tunel!=='todos' && String(l.tunel)!==tunel) return false;
+      if(fecha && l.fechaISO!==fecha) return false;
+      if(busqueda){
+        const campos=[l.importador,l.coche,l.lote,l.item,l.talla,l.tipo,l.responsable,l.descripcion];
+        if(!campos.some(v => (v||'').toString().toLowerCase().includes(busqueda))) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderLiquidaciones(){
+    const tbody = $('tabla-liquidaciones');
+    tbody.innerHTML = '';
+    const lista = liquidacionesFiltradasTab();
+    $('empty-liquidaciones').style.display = lista.length ? 'none' : 'block';
+    lista.slice().reverse().forEach(l => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>Túnel ${esc(l.tunel)}</td><td>${esc(l.turno)}</td><td>${esc(l.fecha)}</td>
+        <td>${esc(l.importador)||'—'}</td><td>${esc(l.coche)}</td><td>${esc(l.lote)}</td>
+        <td>${esc(l.item)}</td><td>${esc(l.talla)||'—'}</td><td>${l.cajas}</td><td>${l.peso}</td>
+        <td><strong>${Number(l.total).toLocaleString('es-EC')}</strong></td>
+        <td>${badgeLote(l.tipo)}</td>
+        <td>${esc(l.descripcion)||'—'}</td>
+        <td style="white-space:nowrap;"><button class="cl-btn secondary sm" data-edit="${l.id}">Editar</button> <button class="cl-btn warning sm" data-del="${l.id}">Eliminar</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('[data-del]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if(!confirm('¿Seguro que quieres eliminar esta liquidación?')) return;
+        liquidaciones = liquidaciones.filter(l => l.id !== btn.dataset.del);
+        await setList('liquidaciones', liquidaciones);
+        renderLiquidaciones();
+      });
+    });
+    tbody.querySelectorAll('[data-edit]').forEach(btn => {
+      btn.addEventListener('click', () => editarLiquidacion(btn.dataset.edit));
+    });
+  }
+  $('lq-filtro-turno').addEventListener('change', renderLiquidaciones);
+  $('lq-filtro-tunel').addEventListener('change', renderLiquidaciones);
+  $('lq-filtro-fecha').addEventListener('change', renderLiquidaciones);
+  $('buscar-liquidaciones').addEventListener('input', renderLiquidaciones);
+  $('btn-limpiar-filtro-liq').addEventListener('click', () => { $('lq-filtro-turno').value='todos'; $('lq-filtro-tunel').value='todos'; $('lq-filtro-fecha').value=''; $('buscar-liquidaciones').value=''; renderLiquidaciones(); });
+  $('btn-cambiar-tunel-masivo').addEventListener('click', async () => {
+    const origen = $('cambiar-tunel-origen').value;
+    const destino = $('cambiar-tunel-destino').value;
+    if(origen === destino){ alert('El túnel actual y el nuevo túnel son el mismo.'); return; }
+    const afectados = liquidaciones.filter(l => String(l.tunel) === origen);
+    if(!afectados.length){ alert('No hay liquidaciones guardadas en el Túnel ' + origen + '.'); return; }
+    if(!confirm(`¿Cambiar ${afectados.length} liquidación(es) del Túnel ${origen} al Túnel ${destino}? Esta acción no se puede deshacer.`)) return;
+    liquidaciones.forEach(l => { if(String(l.tunel) === origen) l.tunel = destino; });
+    await setList('liquidaciones', liquidaciones);
+    renderLiquidaciones();
+    const msg=$('msg-liquidacion'); msg.textContent=`Se cambiaron ${afectados.length} liquidación(es) del Túnel ${origen} al Túnel ${destino}.`; msg.className='cl-msg ok';
+  });
+
+  function editarLiquidacion(id){
+    const l = liquidaciones.find(x => x.id === id);
+    if(!l) return;
+    editandoLiqId = id;
+    registroSeleccionadoId = 'edit';
+    $('l-tunel').value = l.tunel;
+    $('l-turno').value = l.turno;
+    $('l-coche').value = l.coche;
+    $('l-fecha').value = l.fechaISO || todayStr();
+    $('l-responsable').value = l.responsable || '';
+    $('l-registro').value = l.lote || '';
+    $('l-tipo').value = l.tipo || '';
+    $('l-item').value = l.item || '';
+    $('l-proforma').value = l.proforma || '';
+    $('l-importador').value = l.importador || '';
+    $('l-talla').value = l.talla || '';
+    $('l-cajas').value = l.cajas;
+    $('l-peso').value = l.peso;
+    $('l-total').value = Number(l.total).toFixed(2);
+    $('l-descripcion').value = l.descripcion || '';
+    $('btn-guardar-liquidacion').textContent = 'Actualizar liquidación';
+    const msg=$('msg-liquidacion'); msg.textContent='Editando liquidación. Guarda para actualizar.'; msg.className='cl-msg ok';
+    actualizarProgresoLote();
+    $('sec-liquidacion').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  $('btn-guardar-liquidacion').addEventListener('click', async () => {
+    const msg = $('msg-liquidacion');
+    const tunel=$('l-tunel').value, turno=$('l-turno').value, coche=$('l-coche').value.trim();
+    const fechaSel=$('l-fecha').value, responsable=$('l-responsable').value.trim();
+    const loteTexto=$('l-registro').value.trim();
+    const coincidencias = registros.filter(x => x.tipoLote === loteTexto);
+    if(coincidencias.length > 1 && !registroSeleccionadoId && !editandoLiqId){ msg.textContent='Hay varios registros con este lote. Selecciona cuál es.'; msg.className='cl-msg err'; $('l-registro').classList.add('cl-error'); return; }
+    const item=$('l-item').value, proforma=$('l-proforma').value, importador=$('l-importador').value, talla=$('l-talla').value;
+    const cajas=$('l-cajas').value, peso=$('l-peso').value, total=$('l-total').value, tipo=$('l-tipo').value.trim();
+    const obligatorios=[{id:'l-registro',val:loteTexto},{id:'l-coche',val:coche},{id:'l-fecha',val:fechaSel},{id:'l-responsable',val:responsable},{id:'l-cajas',val:cajas},{id:'l-peso',val:peso},{id:'l-tipo',val:tipo}];
+    let faltantes=[];
+    obligatorios.forEach(c => { const el=$(c.id); if(!c.val){ el.classList.add('cl-error'); faltantes.push(c.id); } else { el.classList.remove('cl-error'); } });
+    if(faltantes.length){ const mens={'l-registro':'Debes indicar el lote máscara.','l-tipo':'Debes indicar el lote Fresco / Reproceso.'}; msg.textContent=mens[faltantes[0]]||'Completa los campos obligatorios.'; msg.className='cl-msg err'; $(faltantes[0]).focus(); return; }
+    if(parseFloat(cajas)<=0){ $('l-cajas').classList.add('cl-error'); msg.textContent='Las cajas deben ser mayores a 0.'; msg.className='cl-msg err'; return; }
+    if(parseFloat(peso)<=0){ msg.textContent='El peso por empaque debe ser mayor a 0. Verifica el lote.'; msg.className='cl-msg err'; return; }
+    const fechaFmt = new Date(fechaSel+'T00:00:00').toLocaleDateString('es-EC');
+    const descripcion = $('l-descripcion').value.trim();
+    if(editandoLiqId){
+      const idx = liquidaciones.findIndex(x => x.id === editandoLiqId);
+      if(idx !== -1){
+        liquidaciones[idx] = { ...liquidaciones[idx], tunel, turno, coche, lote:loteTexto, item, proforma, importador, talla, cajas:parseFloat(cajas), peso:parseFloat(peso), total:parseFloat(total), tipo, fecha:fechaFmt, fechaISO:fechaSel, responsable, descripcion };
+        await setList('liquidaciones', liquidaciones);
+        renderLiquidaciones();
+        msg.textContent='Liquidación actualizada correctamente.'; msg.className='cl-msg ok';
+        editandoLiqId = null;
+        $('btn-guardar-liquidacion').textContent = 'Guardar liquidación';
+        limpiarLiquidacionForm(true, false);
+      }
+      return;
+    }
+    const horaActual = (() => { const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); })();
+    const nueva = { id:'liq_'+Date.now(), tunel, turno, coche, lote:loteTexto, item, proforma, importador, talla, cajas:parseFloat(cajas), peso:parseFloat(peso), total:parseFloat(total), tipo, fecha:fechaFmt, fechaISO:fechaSel, responsable, descripcion, hora:horaActual };
+    liquidaciones.push(nueva);
+    await setList('liquidaciones', liquidaciones);
+    renderLiquidaciones();
+    msg.textContent='Liquidación guardada correctamente.'; msg.className='cl-msg ok';
+    limpiarLiquidacionForm(false, false);
+  });
+
+  function limpiarLiquidacionForm(resetResponsable, resetCocheYTipo){
+    if(resetResponsable === undefined) resetResponsable = true;
+    if(resetCocheYTipo === undefined) resetCocheYTipo = true;
+    registroSeleccionadoId=null;
+    editandoLiqId=null;
+    $('btn-guardar-liquidacion').textContent = 'Guardar liquidación';
+    $('lote-coincidencias').style.display='none'; $('lote-coincidencias').innerHTML='';
+    ['l-registro','l-fecha','l-cajas'].forEach(id => $(id).classList.remove('cl-error'));
+    $('l-fecha').value=fechaLiquidacionDefault(); $('l-registro').value='';
+    $('l-item').value=''; $('l-proforma').value=''; $('l-importador').value=''; $('l-talla').value=''; $('l-cajas').value=''; $('l-peso').value=''; $('l-total').value='0.00';
+    $('l-descripcion').value='';
+    if(resetCocheYTipo){
+      $('l-coche').classList.remove('cl-error'); $('l-tipo').classList.remove('cl-error');
+      $('l-coche').value=''; $('l-tipo').value='';
+      $('l-libras-comparar').value='';
+    }
+    if(resetResponsable){ $('l-responsable').value=''; $('l-responsable').classList.remove('cl-error'); }
+    actualizarProgresoLote();
+  }
+  $('btn-limpiar-liquidacion').addEventListener('click', () => limpiarLiquidacionForm(true, true));
+  // Al cambiar de túnel, se exige elegir nuevamente el responsable (para ese nuevo túnel).
+  // Mientras se mantenga el mismo túnel, el responsable seleccionado se conserva entre coches.
+  tunelSelectLiq.addEventListener('change', () => {
+    $('l-responsable').value='';
+    $('l-responsable').classList.remove('cl-error');
+  });
+
+  // ---------- Export Excel liquidaciones ----------
+  $('btn-excel-liquidaciones').addEventListener('click', () => exportarExcel(liquidaciones, 'liquidaciones_' + todayStr() + '.xlsx'));
+  $('btn-borrar-todo-liquidaciones').addEventListener('click', async () => {
+    if(!liquidaciones.length){ alert('No hay liquidaciones para borrar.'); return; }
+    if(!confirm('¿Seguro que quieres borrar TODA la información de la tabla de liquidaciones? Esta acción no se puede deshacer.')) return;
+    if(!confirm('Última confirmación: se eliminarán ' + liquidaciones.length + ' liquidaciones registradas. ¿Continuar?')) return;
+    liquidaciones = [];
+    await setList('liquidaciones', liquidaciones);
+    renderLiquidaciones();
+    const msg=$('msg-liquidacion'); msg.textContent='Se borró toda la información de liquidaciones.'; msg.className='cl-msg ok';
+  });
+
+  // ================= SECCION 3: REPORTE =================
+  function fechaComparable(l){
+    if(l.fechaISO) return l.fechaISO;
+    if(l.fecha){ const p=l.fecha.split('/'); if(p.length===3){ const[d,m,y]=p; return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`; } }
+    return '';
+  }
+
+  function filtrarLiquidaciones(){
+    const filtroTurno=$('rep-turno').value, filtroTunel=$('rep-tunel').value;
+    const desde=$('rep-fecha-desde').value, hasta=$('rep-fecha-hasta').value;
+    const horaDesde=$('rep-hora-desde').value, horaHasta=$('rep-hora-hasta').value;
+    const busqueda=($('buscar-reporte').value || '').trim().toLowerCase();
+    return liquidaciones.filter(l => {
+      if(filtroTurno!=='todos' && l.turno!==filtroTurno) return false;
+      if(filtroTunel!=='todos' && String(l.tunel)!==String(filtroTunel)) return false;
+      const fc=fechaComparable(l);
+      if(desde && fc && fc<desde) return false;
+      if(hasta && fc && fc>hasta) return false;
+      if(horaDesde || horaHasta){
+        if(!l.hora) return false;
+        if(horaDesde && l.hora<horaDesde) return false;
+        if(horaHasta && l.hora>horaHasta) return false;
+      }
+      if(busqueda){
+        const campos=[l.importador,l.coche,l.lote,l.item,l.talla,l.tipo,l.responsable,l.descripcion,l.proforma];
+        if(!campos.some(v => (v||'').toString().toLowerCase().includes(busqueda))) return false;
+      }
+      return true;
+    });
+  }
+
+  $('btn-refrescar-reporte').addEventListener('click', renderReporte);
+  $('btn-pdf-reporte').addEventListener('click', generarPDF);
+  $('btn-pdf-reporte-lote').addEventListener('click', generarPDFPorLote);
+  $('btn-limpiar-filtro-lote').addEventListener('click', () => { $('rl-filtro-fecha').value=''; $('rl-filtro-turno').value='todos'; $('rl-filtro-lote').value='todos'; refreshFiltroLoteSelect(); });
+
+  function refreshFiltroLoteSelect(){
+    const turno = $('rl-filtro-turno').value;
+    const fecha = $('rl-filtro-fecha').value;
+    const sel = $('rl-filtro-lote');
+    const actual = sel.value;
+    const filtradas = liquidaciones.filter(l => (turno==='todos' || l.turno===turno) && (!fecha || l.fechaISO===fecha));
+    const lotesLiquidaciones = filtradas.map(l => l.tipo).filter(Boolean);
+    const extrasFiltrados = extrasLote.filter(e => (turno==='todos' || !e.turno || e.turno===turno) && (!fecha || !e.fecha || e.fecha===fecha));
+    const lotesExtras = extrasFiltrados.map(e => (e.lote||'').trim()).filter(Boolean);
+    const lotes = [...new Set([...lotesLiquidaciones, ...lotesExtras])].sort();
+    sel.innerHTML = '<option value="todos">Todos</option>' + lotes.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+    sel.value = lotes.includes(actual) ? actual : 'todos';
+  }
+  // El listado de "Lote" solo se refresca al abrir la pestaña o al usar "Limpiar filtro",
+  // no cuando cambian Fecha o Turno, para no reiniciar la selección sin que el usuario lo pida.
+
+  // ---------- Descarga Excel por túnel ----------
+  $('btn-excel-tunel').addEventListener('click', () => {
+    const tunel = $('dl-tunel').value;
+    const turno = $('dl-turno').value;
+    const desde = $('dl-fecha-desde').value;
+    const hasta = $('dl-fecha-hasta').value;
+    const msg = $('msg-dl-tunel');
+
+    const data = liquidaciones.filter(l => {
+      if(tunel !== 'todos' && String(l.tunel) !== String(tunel)) return false;
+      if(turno !== 'todos' && l.turno !== turno) return false;
+      const fc = fechaComparable(l);
+      if(desde && fc && fc < desde) return false;
+      if(hasta && fc && fc > hasta) return false;
+      return true;
+    });
+
+    if(!data.length){
+      msg.textContent = 'No hay liquidaciones con esos filtros.';
+      msg.className = 'cl-msg err';
+      return;
+    }
+
+    const tunelLabel = tunel === 'todos' ? 'todos-tuneles' : 'tunel-' + tunel;
+    const turnoLabel = turno === 'todos' ? '' : '_' + turno.toLowerCase();
+    const filename = `liquidaciones_${tunelLabel}${turnoLabel}_${todayStr()}.xlsx`;
+    exportarExcel(data, filename);
+    msg.textContent = `✓ ${data.length} registro(s) exportados — ${filename}`;
+    msg.className = 'cl-msg ok';
+    setTimeout(() => { msg.textContent = ''; }, 4000);
+  });
+  $('rep-fecha-desde').addEventListener('change', renderReporte);
+  $('rep-fecha-hasta').addEventListener('change', renderReporte);
+  $('rep-hora-desde').addEventListener('change', renderReporte);
+  $('rep-hora-hasta').addEventListener('change', renderReporte);
+  $('rep-turno').addEventListener('change', renderReporte);
+  $('rep-tunel').addEventListener('change', renderReporte);
+  $('buscar-reporte').addEventListener('input', renderReporte);
+  $('btn-limpiar-filtro-reporte').addEventListener('click', () => { $('rep-fecha-desde').value=''; $('rep-fecha-hasta').value=''; $('rep-hora-desde').value=''; $('rep-hora-hasta').value=''; $('rep-turno').value='todos'; $('rep-tunel').value='todos'; $('buscar-reporte').value=''; renderReporte(); });
+
+  // ---------- Excel export helper ----------
+  function exportarExcel(data, filename){
+    if(!data.length){ alert('No hay datos para exportar.'); return; }
+    const headers = ['Túnel','Turno','Fecha','Responsable','Coche','Lote Máscara','Item','Proforma','Importador','Talla','Lote Fresco/Reproceso','Cajas','Peso Empaque','Total lb','Descripción'];
+    const rows = data.map(l => ['Túnel '+l.tunel, l.turno, l.fecha, l.responsable, l.coche, l.lote, l.item, l.proforma, l.importador, l.talla, l.tipo, l.cajas, l.peso, l.total, l.descripcion||'']);
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    // Ancho de columnas
+    ws['!cols'] = [8,8,10,16,8,14,10,10,14,8,14,6,10,10,14].map(w=>({wch:w}));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Liquidaciones');
+    XLSX.writeFile(wb, filename);
+  }
+
+  function contarCochesUnicos(rows){
+    return new Set(rows.map(l => (l.coche||'').toString().trim() || 'Sin dato')).size;
+  }
+
+  const unir = s => [...s].filter(Boolean).join(' / ') || '—';
+
+  function renderTablaDetalle(rows, incluirItem){
+    const grupos={};
+    rows.forEach(l => {
+      const key = incluirItem ? `${l.talla||''}||${l.responsable||''}||${l.lote||''}||${l.item||''}` : `${l.talla||''}||${l.responsable||''}||${l.lote||''}`;
+      if(!grupos[key]) grupos[key]={ talla:l.talla, responsable:l.responsable, lote:l.lote, item:l.item, importadores:new Set(), proformas:new Set(), descripciones:new Set(), cajas:0, total:0, coches:new Set() };
+      grupos[key].importadores.add(l.importador); grupos[key].proformas.add(l.proforma); grupos[key].descripciones.add(l.descripcion);
+      grupos[key].cajas += Number(l.cajas)||0; grupos[key].total += Number(l.total)||0;
+      grupos[key].coches.add((l.coche||'').toString().trim());
+    });
+    const filas=Object.values(grupos).sort((a,b)=> (a.talla||'').localeCompare(b.talla||'','es',{numeric:true}) || (a.lote||'').localeCompare(b.lote||'','es',{numeric:true}));
+    const thItem = incluirItem ? '<th>Item</th>' : '';
+    return `<table><thead><tr><th>Lote Máscara</th>${thItem}<th>Talla</th><th>Responsable</th><th>Coches</th><th>Importador</th><th>Proforma</th><th>Cajas</th><th>Libras</th><th>Descripción</th></tr></thead>
+      <tbody>${filas.map(f=>`<tr><td>${esc(f.lote)||'Sin dato'}</td>${incluirItem?`<td>${esc(f.item)||'—'}</td>`:''}<td>${esc(f.talla)||'Sin dato'}</td><td>${esc(f.responsable)||'Sin dato'}</td><td>${f.coches.size}</td><td>${esc(unir(f.importadores))}</td><td>${esc(unir(f.proformas))}</td><td>${f.cajas}</td><td>${Number(f.total).toLocaleString('es-EC')}</td><td>${esc(unir(f.descripciones))}</td></tr>`).join('')}</tbody></table>`;
+  }
+
+  function renderCuadriculaImportador(rows){
+    const porImportador = agruparPor(rows, l => l.importador);
+    let html = '';
+    Object.keys(porImportador).sort().forEach(imp => {
+      const rowsImp = porImportador[imp];
+      const columnasMap = {};
+      rowsImp.forEach(l => {
+        const key = l.lote || 'Sin dato';
+        if(!columnasMap[key]) columnasMap[key] = { talla:new Set(), proforma:new Set(), descripcion:new Set() };
+        columnasMap[key].talla.add(l.talla||'');
+        columnasMap[key].proforma.add(l.proforma||'');
+        columnasMap[key].descripcion.add(l.descripcion||'');
+      });
+      const columnas = Object.keys(columnasMap).sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
+      const filasMap = {};
+      rowsImp.forEach(l => {
+        const tipoKey = l.tipo || 'Sin dato';
+        const descKey = l.descripcion || '';
+        const rowKey = tipoKey + '||' + descKey;
+        const loteKey = l.lote || 'Sin dato';
+        if(!filasMap[rowKey]) filasMap[rowKey] = { tipo: tipoKey, descripcion: descKey, cols: {} };
+        filasMap[rowKey].cols[loteKey] = (filasMap[rowKey].cols[loteKey] || 0) + (Number(l.cajas) || 0);
+      });
+      const filas = Object.keys(filasMap).sort((a,b) => {
+        const fa = filasMap[a], fb = filasMap[b];
+        const cmpTipo = fa.tipo.localeCompare(fb.tipo,'es',{numeric:true});
+        if(cmpTipo !== 0) return cmpTipo;
+        return (fa.descripcion?1:0) - (fb.descripcion?1:0);
+      });
+      const totalCajas = rowsImp.reduce((s,l)=>s+(Number(l.cajas)||0),0);
+      const totalLibras = rowsImp.reduce((s,l)=>s+(Number(l.total)||0),0);
+      html += `<div style="margin:10px 0 0;padding:6px 10px;background:#d9f2c4;font-weight:700;font-size:12px;color:#274d13;border-radius:4px 4px 0 0;">${esc(imp)||'Sin importador'}</div>`;
+      html += '<table style="font-size:10px;"><thead>';
+      html += '<tr><th>LOTE MASCARA</th>' + columnas.map(c=>`<th>${esc(c)}</th>`).join('') + '</tr>';
+      html += '<tr><th>Talla</th>' + columnas.map(c=>`<th>${esc(unir(columnasMap[c].talla))}</th>`).join('') + '</tr>';
+      html += '<tr><th>Proforma</th>' + columnas.map(c=>`<th>${esc(unir(columnasMap[c].proforma))}</th>`).join('') + '</tr>';
+      html += '</thead><tbody>';
+      filas.forEach(key => {
+        const f = filasMap[key];
+        const label = f.descripcion
+          ? `${esc(f.tipo)}<br><span style="color:#8a6d00;font-weight:600;font-size:9px;">— ${esc(f.descripcion)}</span>`
+          : esc(f.tipo);
+        html += `<tr><td><strong>${label}</strong></td>` + columnas.map(c => {
+          const v = f.cols[c];
+          return `<td>${v?v:''}</td>`;
+        }).join('') + '</tr>';
+      });
+      html += '</tbody></table>';
+      html += `<div style="margin:4px 0 14px;font-size:11px;font-weight:700;color:#0b1f3a;">Total: ${totalCajas} cajas · ${totalLibras.toLocaleString('es-EC')} lb</div>`;
+    });
+    return html;
+  }
+
+  function generarPDF(){
+    const filtroTurno=$('rep-turno').value;
+    const data=filtrarLiquidaciones();
+    if(!data.length){ alert('No hay liquidaciones para generar el reporte.'); return; }
+    let cuerpoHtml='';
+    const porTunel=agruparPor(data, l=>l.tunel);
+    Object.keys(porTunel).sort((a,b)=>a-b).forEach(tunel => {
+      const rowsTunel=porTunel[tunel];
+      const subtotalTunel=rowsTunel.reduce((s,l)=>s+l.total,0);
+      cuerpoHtml+=`<h3>Túnel ${esc(tunel)} (${contarCochesUnicos(rowsTunel)} coches · ${subtotalTunel.toLocaleString('es-EC')} lb)</h3>`;
+      cuerpoHtml += renderCuadriculaImportador(rowsTunel);
+    });
+    const totalLibras=data.reduce((s,l)=>s+l.total,0);
+    $('cierre-print-area').innerHTML = '';
+    $('pdf-print-area').innerHTML=`<h1>Reporte de Túnel</h1><div class="sub">Filtro: ${esc(filtroTurno==='todos'?'Ambos turnos':filtroTurno)} · Generado: ${esc(fmtFecha())}</div>${cuerpoHtml}<div class="totales">Total general: ${totalLibras.toLocaleString('es-EC')} lb · ${contarCochesUnicos(data)} coches</div>`;
+    document.body.classList.remove('print-cierre');
+    document.body.classList.add('print-reporte');
+    window.print();
+    document.body.classList.remove('print-reporte');
+  }
+
+  function generarPDFPorLote(){
+    const turno = $('rl-filtro-turno').value;
+    const fecha = $('rl-filtro-fecha').value;
+    const loteFiltro = $('rl-filtro-lote').value;
+    const loteFiltroNorm = loteFiltro.trim().toLowerCase();
+    const data = liquidaciones.filter(l => (turno==='todos' || l.turno===turno) && (!fecha || l.fechaISO===fecha) && (loteFiltro==='todos' || l.tipo===loteFiltro));
+    const extrasFiltradosGlobal = extrasLote.filter(e => (turno==='todos' || !e.turno || e.turno===turno) && (!fecha || !e.fecha || e.fecha===fecha) && (loteFiltro==='todos' || (e.lote||'').trim().toLowerCase()===loteFiltroNorm));
+    if(!data.length && !extrasFiltradosGlobal.length){ alert('No hay información para generar el reporte.'); return; }
+    let cuerpoHtml='';
+    let extrasGrandTotal = 0;
+    const porTipo=agruparPor(data, l=>l.tipo);
+    const tiposDesdeExtras = extrasFiltradosGlobal.map(e => (e.lote||'').trim()).filter(Boolean);
+    const todosTipos = new Set([...Object.keys(porTipo), ...tiposDesdeExtras]);
+    [...todosTipos].sort().forEach(tipo => {
+      const rowsTipo = porTipo[tipo] || [];
+      const subtotalTipo = rowsTipo.reduce((s,l)=>s+l.total,0);
+      const tipoNorm = tipo.trim().toLowerCase();
+      const extrasCoinciden = extrasFiltradosGlobal.filter(e => (e.lote||'').trim().toLowerCase() === tipoNorm);
+      const extrasTotal = extrasCoinciden.reduce((s,e)=>s+(Number(e.libras)||0),0);
+      extrasGrandTotal += extrasTotal;
+      const totalConExtras = subtotalTipo + extrasTotal;
+      cuerpoHtml+=`<h4 style="margin:10px 0 4px;padding:6px 10px;font-size:15px;color:#0b1f3a;background:#eaf1ff;border-radius:5px;">Lote: ${esc(tipo)} (${contarCochesUnicos(rowsTipo)} coches · ${totalConExtras.toLocaleString('es-EC')} lb)</h4>`;
+      const recibido = librasRecibidas.find(r => (r.lote||'').trim().toLowerCase() === tipoNorm);
+      if(recibido && Number(recibido.libras) > 0){
+        const rendimiento = (totalConExtras / Number(recibido.libras)) * 100;
+        const colorRend = rendimiento >= 100 ? '#1e824c' : (rendimiento >= 90 ? '#8a6d00' : '#c0392b');
+        cuerpoHtml+=`<div style="margin:4px 0 14px;padding:12px 16px;background:#f3f6fb;border-radius:6px;font-size:16px;">
+          <strong>Libras liquidadas:</strong> ${totalConExtras.toLocaleString('es-EC')} lb &nbsp;·&nbsp;
+          <strong>Libras recibidas:</strong> ${Number(recibido.libras).toLocaleString('es-EC')} lb &nbsp;·&nbsp;
+          <strong style="color:${colorRend};font-size:18px;">Rendimiento: ${rendimiento.toLocaleString('es-EC',{maximumFractionDigits:2})}%</strong>
+        </div>`;
+      }
+      const porImportador = agruparPor(rowsTipo, l => l.importador);
+      Object.keys(porImportador).sort().forEach(imp => {
+        const filasImp = porImportador[imp];
+        const subtotalImp = filasImp.reduce((s,l)=>s+l.total,0);
+        cuerpoHtml+=`<div style="margin:10px 0 4px;padding:6px 10px;background:#eef3fb;border-left:4px solid #13315c;font-weight:700;font-size:12px;color:#0b1f3a;">Importador: ${esc(imp)||'Sin dato'} (${contarCochesUnicos(filasImp)} coches · ${subtotalImp.toLocaleString('es-EC')} lb)</div>`;
+        const filasSinDesc = filasImp.filter(l => !l.descripcion);
+        const filasConDesc = filasImp.filter(l => !!l.descripcion);
+        if(filasSinDesc.length){
+          cuerpoHtml += renderTablaDetalle(filasSinDesc, true);
+        }
+        if(filasConDesc.length){
+          const subtotalDesc=filasConDesc.reduce((s,l)=>s+l.total,0);
+          cuerpoHtml+=`<div style="margin:8px 0 4px;font-size:11px;font-weight:700;color:#8a6d00;">Con descripción (${contarCochesUnicos(filasConDesc)} coches · ${subtotalDesc.toLocaleString('es-EC')} lb)</div>`;
+          cuerpoHtml += renderTablaDetalle(filasConDesc, true);
+        }
+      });
+      if(!rowsTipo.length){
+        cuerpoHtml+=`<div style="margin:6px 0;font-size:11px;color:var(--muted);font-style:italic;">Este lote no tiene liquidaciones registradas; solo cantidades adicionales.</div>`;
+      }
+      if(extrasCoinciden.length){
+        cuerpoHtml+=`<div style="margin:10px 0 4px;font-size:11.5px;font-weight:700;color:#0b1f3a;">PESO BALANZA — ${extrasTotal.toLocaleString('es-EC')} lb</div>`;
+        const porTipoExtra = agruparPor(extrasCoinciden, e => e.tipo);
+        Object.keys(porTipoExtra).sort().forEach(tipoExtra => {
+          const filasTipoExtra = porTipoExtra[tipoExtra];
+          const subtotalTipoExtra = filasTipoExtra.reduce((s,e)=>s+(Number(e.libras)||0),0);
+          cuerpoHtml+=`<div style="margin:6px 0 2px;font-size:10.5px;font-weight:600;color:#4a5568;">${esc(tipoExtra)||'Sin tipo'} (${subtotalTipoExtra.toLocaleString('es-EC')} lb)</div>
+            <table><thead><tr><th>Talla</th><th>Clase</th><th>Libras</th></tr></thead>
+            <tbody>${filasTipoExtra.map(e=>`<tr><td>${esc(e.talla)||'—'}</td><td>${esc(e.clase)||'—'}</td><td>${e.libras?Number(e.libras).toLocaleString('es-EC'):'—'}</td></tr>`).join('')}</tbody></table>`;
+        });
+      }
+    });
+    const totalLibras=data.reduce((s,l)=>s+l.total,0) + extrasGrandTotal;
+    $('cierre-print-area').innerHTML = '';
+    $('pdf-print-area').innerHTML=`<h1>Reporte por Lote</h1><div class="sub">Filtro: ${esc(turno==='todos'?'Ambos turnos':turno)}${fecha?' · Fecha: '+esc(fecha):''} · Generado: ${esc(fmtFecha())}</div>${cuerpoHtml}<div class="totales">Total general: ${totalLibras.toLocaleString('es-EC')} lb · ${contarCochesUnicos(data)} coches</div>`;
+    document.body.classList.remove('print-cierre');
+    document.body.classList.add('print-reporte');
+    window.print();
+    document.body.classList.remove('print-reporte');
+  }
+
+  function renderReporte(){
+    const data=filtrarLiquidaciones();
+    const totalLibras=data.reduce((s,l)=>s+l.total,0);
+    const totalCajas=data.reduce((s,l)=>s+l.cajas,0);
+    const tunelesActivos=new Set(data.map(l=>l.tunel)).size;
+    $('reporte-cards').innerHTML=`
+      <div class="cl-card"><div class="cl-card-label">Total libras</div><div class="cl-card-value">${totalLibras.toLocaleString('es-EC')}</div></div>
+      <div class="cl-card"><div class="cl-card-label">Total coches</div><div class="cl-card-value">${contarCochesUnicos(data)}</div></div>
+      <div class="cl-card"><div class="cl-card-label">Total cajas</div><div class="cl-card-value">${totalCajas.toLocaleString('es-EC')}</div></div>
+      <div class="cl-card"><div class="cl-card-label">Túneles activos</div><div class="cl-card-value">${tunelesActivos}</div></div>
+    `;
+    const cont=$('reporte-tuneles'); cont.innerHTML='';
+    $('empty-reporte').style.display=data.length?'none':'block';
+    if(!data.length) return;
+    const porTunel=agruparPor(data,l=>l.tunel);
+    Object.keys(porTunel).sort((a,b)=>a-b).forEach(tunel => {
+      const rowsTunel=porTunel[tunel];
+      const subtotalTunel=rowsTunel.reduce((s,l)=>s+l.total,0);
+      const block=document.createElement('div'); block.className='cl-tunel-block';
+      let html=`<div class="cl-tunel-header"><span>Túnel ${esc(tunel)}</span><span>${contarCochesUnicos(rowsTunel)} coches · ${subtotalTunel.toLocaleString('es-EC')} lb</span></div>`;
+      const porTipo=agruparPor(rowsTunel,l=>l.tipo);
+      Object.keys(porTipo).sort().forEach(tipo => {
+        const rowsTipo=porTipo[tipo];
+        const subtotalTipo=rowsTipo.reduce((s,l)=>s+l.total,0);
+        html+=`<div style="padding:8px 12px 2px;font-size:12.5px;font-weight:700;color:var(--navy-2);background:var(--navy-soft);">Lote: ${esc(tipo)} <span style="color:var(--muted);font-weight:600;">(${contarCochesUnicos(rowsTipo)} coches · ${subtotalTipo.toLocaleString('es-EC')} lb)</span></div>`;
+        const porTalla=agruparPor(rowsTipo,l=>l.talla);
+        Object.keys(porTalla).sort().forEach(talla => {
+          const rowsTalla=porTalla[talla];
+          const subtotalTalla=rowsTalla.reduce((s,l)=>s+l.total,0);
+          html+=`<div style="padding:5px 14px;font-size:12px;font-weight:700;color:var(--navy);">Talla: ${esc(talla)||'Sin dato'} <span style="color:var(--muted);font-weight:600;">(${subtotalTalla.toLocaleString('es-EC')} lb)</span></div>
+            <table class="cl-table"><thead><tr><th>Turno</th><th>Coche</th><th>Lote máscara</th><th>Item</th><th>Importador</th><th>Cajas</th><th>Total lb</th></tr></thead>
+            <tbody>${rowsTalla.map(l=>`<tr><td>${esc(l.turno)}</td><td>${esc(l.coche)}</td><td>${esc(l.lote)}</td><td>${esc(l.item)}</td><td>${esc(l.importador)}</td><td>${l.cajas}</td><td><strong>${l.total.toLocaleString('es-EC')}</strong></td></tr>`).join('')}</tbody></table>`;
+        });
+      });
+      block.innerHTML=html; cont.appendChild(block);
+    });
+  }
+
+  // ================= CIERRE DE TURNO =================
+  $('btn-cierre-turno').addEventListener('click', () => {
+    $('cierre-fecha').value = todayStr();
+    $('cierre-turno').value = 'todos';
+    $('cierre-tunel').value = 'todos';
+    $('modal-cierre').classList.add('open');
+    generarCierre();
+  });
+  $('btn-cerrar-modal').addEventListener('click', () => $('modal-cierre').classList.remove('open'));
+  $('modal-cierre').addEventListener('click', e => { if(e.target === $('modal-cierre')) $('modal-cierre').classList.remove('open'); });
+  $('btn-aplicar-cierre').addEventListener('click', generarCierre);
+
+  function filtrarCierre(){
+    const fecha=$('cierre-fecha').value, turno=$('cierre-turno').value, tunel=$('cierre-tunel').value;
+    return liquidaciones.filter(l => {
+      if(fecha && fechaComparable(l) !== fecha) return false;
+      if(turno!=='todos' && l.turno!==turno) return false;
+      if(tunel!=='todos' && String(l.tunel)!==String(tunel)) return false;
+      return true;
+    });
+  }
+
+  function generarCierre(){
+    const data=filtrarCierre();
+    const cont=$('cierre-contenido');
+    const fecha=$('cierre-fecha').value ? new Date($('cierre-fecha').value+'T00:00:00').toLocaleDateString('es-EC') : '—';
+    const turno=$('cierre-turno').value==='todos'?'Ambos turnos':$('cierre-turno').value;
+
+    if(!data.length){ cont.innerHTML='<div style="text-align:center;color:var(--muted);padding:24px;font-size:13px;">No hay liquidaciones para este filtro.</div>'; return; }
+
+    const totalLibras=data.reduce((s,l)=>s+l.total,0);
+    const totalCajas=data.reduce((s,l)=>s+l.cajas,0);
+    const porTunel=agruparPor(data,l=>l.tunel);
+
+    let html=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:18px;">
+      <div class="cl-card"><div class="cl-card-label">Total libras</div><div class="cl-card-value">${totalLibras.toLocaleString('es-EC')}</div></div>
+      <div class="cl-card"><div class="cl-card-label">Total coches</div><div class="cl-card-value">${data.length}</div></div>
+      <div class="cl-card"><div class="cl-card-label">Total cajas</div><div class="cl-card-value">${totalCajas.toLocaleString('es-EC')}</div></div>
+      <div class="cl-card"><div class="cl-card-label">Túneles</div><div class="cl-card-value">${Object.keys(porTunel).length}</div></div>
+    </div>`;
+
+    Object.keys(porTunel).sort((a,b)=>a-b).forEach(tunel => {
+      const rowsTunel=porTunel[tunel];
+      const subLb=rowsTunel.reduce((s,l)=>s+l.total,0);
+      const subCajas=rowsTunel.reduce((s,l)=>s+l.cajas,0);
+      const liquidadores=[...new Set(rowsTunel.map(l=>l.responsable).filter(Boolean))];
+      const porTalla=agruparPor(rowsTunel,l=>l.talla);
+      const porTipo=agruparPor(rowsTunel,l=>l.tipo);
+
+      html+=`<div class="cl-cierre-tunel">
+        <div class="cl-cierre-tunel-hdr"><span>Túnel ${esc(tunel)}</span><span>${rowsTunel.length} coches · ${subLb.toLocaleString('es-EC')} lb · ${subCajas.toLocaleString('es-EC')} cajas</span></div>
+        <div class="cl-cierre-row">
+          ${Object.entries(porTalla).sort().map(([t,rows])=>`<div class="cl-cierre-kv"><div class="k">Talla ${esc(t)||'?'}</div><div class="v">${rows.reduce((s,l)=>s+l.total,0).toLocaleString('es-EC')} lb</div></div>`).join('')}
+        </div>
+        <div class="cl-cierre-row">
+          ${Object.entries(porTipo).sort().map(([t,rows])=>`<div class="cl-cierre-kv"><div class="k">${esc(t)||'Sin tipo'}</div><div class="v">${rows.reduce((s,l)=>s+l.total,0).toLocaleString('es-EC')} lb</div></div>`).join('')}
+        </div>
+        <div class="cl-cierre-liqlist"><span style="font-weight:700;color:var(--navy-2);">Liquidadores:</span> ${liquidadores.map(esc).join(' · ')||'—'}</div>
+        <table class="cl-table" style="font-size:12px;">
+          <thead><tr><th>Turno</th><th>Coche</th><th>Liquidador</th><th>Lote máscara</th><th>Tipo</th><th>Talla</th><th>Cajas</th><th>Total lb</th></tr></thead>
+          <tbody>${rowsTunel.map(l=>`<tr><td>${esc(l.turno)}</td><td>${esc(l.coche)}</td><td>${esc(l.responsable)}</td><td>${esc(l.lote)}</td><td>${esc(l.tipo)}</td><td>${esc(l.talla)}</td><td>${l.cajas}</td><td><strong>${l.total.toLocaleString('es-EC')}</strong></td></tr>`).join('')}</tbody>
+        </table>
+      </div>`;
+    });
+
+    // Firma section
+    html+=`<div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div style="border:1px solid var(--line);border-radius:8px;padding:14px;">
+        <div style="font-size:12px;font-weight:700;color:var(--navy-2);margin-bottom:20px;">FIRMA SUPERVISOR DE TURNO</div>
+        <div style="border-bottom:1px solid #999;margin-bottom:4px;height:32px;"></div>
+        <div style="font-size:11px;color:var(--muted);">Nombre y firma</div>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:8px;padding:14px;">
+        <div style="font-size:12px;font-weight:700;color:var(--navy-2);margin-bottom:20px;">FIRMA JEFE DE PRODUCCIÓN</div>
+        <div style="border-bottom:1px solid #999;margin-bottom:4px;height:32px;"></div>
+        <div style="font-size:11px;color:var(--muted);">Nombre y firma</div>
+      </div>
+    </div>`;
+
+    cont.innerHTML=html;
+
+    // Preparar área de impresión
+    $('cierre-print-area').innerHTML=`
+      <h2>Cierre de Turno — EZ PEEL</h2>
+      <div class="sub">Fecha: ${esc(fecha)} · Turno: ${esc(turno)} · Generado: ${esc(fmtFecha())}</div>
+      <table><thead><tr><th>Resumen</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Total libras</td><td>${totalLibras.toLocaleString('es-EC')}</td></tr>
+        <tr><td>Total coches</td><td>${data.length}</td></tr>
+        <tr><td>Total cajas</td><td>${totalCajas.toLocaleString('es-EC')}</td></tr>
+      </tbody></table>
+      ${Object.keys(porTunel).sort((a,b)=>a-b).map(tunel => {
+        const rows=porTunel[tunel];
+        const lb=rows.reduce((s,l)=>s+l.total,0);
+        return `<h3>Túnel ${esc(tunel)} — ${lb.toLocaleString('es-EC')} lb · ${rows.length} coches</h3>
+        <table><thead><tr><th>Turno</th><th>Coche</th><th>Liquidador</th><th>Lote</th><th>Tipo</th><th>Talla</th><th>Cajas</th><th>Libras</th></tr></thead>
+        <tbody>${rows.map(l=>`<tr><td>${esc(l.turno)}</td><td>${esc(l.coche)}</td><td>${esc(l.responsable)}</td><td>${esc(l.lote)}</td><td>${esc(l.tipo)}</td><td>${esc(l.talla)}</td><td>${l.cajas}</td><td>${l.total.toLocaleString('es-EC')}</td></tr>`).join('')}</tbody></table>`;
+      }).join('')}
+      <div style="margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:40px;">
+        <div><div style="border-bottom:1px solid #999;margin-bottom:4px;height:36px;"></div><div style="font-size:11px;">Supervisor de turno — Nombre y firma</div></div>
+        <div><div style="border-bottom:1px solid #999;margin-bottom:4px;height:36px;"></div><div style="font-size:11px;">Jefe de producción — Nombre y firma</div></div>
+      </div>`;
+  }
+
+  $('btn-imprimir-cierre').addEventListener('click', () => {
+    $('pdf-print-area').innerHTML='';
+    document.body.classList.remove('print-reporte');
+    document.body.classList.add('print-cierre');
+    window.print();
+    document.body.classList.remove('print-cierre');
+  });
+
+  // ---------- Respaldo ----------
+  $('btn-exportar-respaldo').addEventListener('click', () => {
+    const respaldo={generado:new Date().toISOString(),app:'control_liquidacion',registros,liquidaciones,extrasLote,librasRecibidas};
+    const blob=new Blob([JSON.stringify(respaldo,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=`respaldo_control_liquidacion_${todayStr()}.json`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  });
+
+  $('input-restaurar-respaldo').addEventListener('change', async (e) => {
+    const file=e.target.files[0]; if(!file) return;
+    try{
+      const data=JSON.parse(await file.text());
+      if(!Array.isArray(data.registros)||!Array.isArray(data.liquidaciones)){ alert('Formato de respaldo no válido.'); return; }
+      const dataExtras = Array.isArray(data.extrasLote) ? data.extrasLote : [];
+      const dataRecibidos = Array.isArray(data.librasRecibidas) ? data.librasRecibidas : [];
+      const accion=confirm(`Respaldo con ${data.registros.length} registro(s), ${data.liquidaciones.length} liquidación(es), ${dataExtras.length} cantidad(es) adicional(es) y ${dataRecibidos.length} lote(s) con libras recibidas.\n\nAceptar = REEMPLAZAR datos actuales.\nCancelar = COMBINAR con datos actuales.`);
+      if(accion){ registros=data.registros; liquidaciones=data.liquidaciones; extrasLote=dataExtras; librasRecibidas=dataRecibidos; }
+      else{
+        const idsR=new Set(registros.map(r=>r.id)); data.registros.forEach(r=>{ if(!idsR.has(r.id)) registros.push(r); });
+        const idsL=new Set(liquidaciones.map(l=>l.id)); data.liquidaciones.forEach(l=>{ if(!idsL.has(l.id)) liquidaciones.push(l); });
+        const idsE=new Set(extrasLote.map(x=>x.id)); dataExtras.forEach(x=>{ if(!idsE.has(x.id)) extrasLote.push(x); });
+        const idsRec=new Set(librasRecibidas.map(x=>x.id)); dataRecibidos.forEach(x=>{ if(!idsRec.has(x.id)) librasRecibidas.push(x); });
+      }
+      await setList('registros',registros); await setList('liquidaciones',liquidaciones);
+      await setList('extrasLote',extrasLote); await setList('librasRecibidas',librasRecibidas);
+      renderRegistros(); refreshRegistroSelect(); renderLiquidaciones(); renderReporte(); renderExtrasLote(); renderLibrasRecibidas();
+      alert('Respaldo restaurado correctamente.');
+    }catch(err){ alert('No se pudo leer el archivo de respaldo.'); }
+    finally{ e.target.value=''; }
+  });
+
+  // ---------- Init ----------
+  (async function init(){
+    $('l-fecha').value = fechaLiquidacionDefault();
+    $('rl-extra-fecha').value = todayStr();
+    await loadRegistros();
+    await loadLiquidaciones();
+    await loadExtrasLote();
+    await loadLibrasRecibidas();
+    renderReporte();
+  })();
+})();
+</script>
+</body></html>
